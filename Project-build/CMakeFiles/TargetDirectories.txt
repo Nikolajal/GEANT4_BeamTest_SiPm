@@ -1,7 +1,0 @@
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/install/strip.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/edit_cache.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/exampleB4c.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/rebuild_cache.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/list_install_components.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/install/local.dir
-/home/alidock/GEANT4_BeamTest_SiPm/Project-build/CMakeFiles/install.dir
