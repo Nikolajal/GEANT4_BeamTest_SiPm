@@ -32,7 +32,7 @@
 *.app
 
 # CMake builds
-dir_to_ignore/Project-build
+./Project-build/**
 
 # Unknown
 .DS_Store
