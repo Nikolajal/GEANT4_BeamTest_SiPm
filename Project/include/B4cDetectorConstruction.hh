@@ -7,6 +7,7 @@
 #define B4cDetectorConstruction_h
 
 #include "G4VUserDetectorConstruction.hh"
+#include "G4Material.hh"
 #include "globals.hh"
 
 class G4VPhysicalVolume;
@@ -31,18 +32,36 @@ public:
     // -- // Private methods & variables
 private:
     
-    // Deployed Materials Definition
+    // Volumes Definition
     void                            DefineMaterials();
     
-    // Deployed Volumes Definition
-    G4VPhysicalVolume*              DefineVolumes();
-  
+    // SiPM Cell Specifics
+    void                            DefineSiPM();
+    G4Material                     *fSiPMCellMaterial;
+    G4double                        fSiPMCellHeight,    fSiPMCellDepth,     fSiPMCellWidth,    fSiPMCellGridSpacingX,  fSiPMCellGridSpacingY;
+    G4int                           fSiPMCellGridNumberX,   fSiPMCellGridNumberY;
+    
+    // Substrate Specifics
+    void                            DefineSubstrate();
+    G4Material                     *fSubstrateMaterial;
+    G4double                        fSubstrateHeight,   fSubstrateDepth,    fSubstrateWidth;
+    
+    // World Specifics
+    void                            DefineWorld();
+    G4Material                     *fWorldMaterial;
+    G4double                        fWorldHeight,   fWorldDepth,    fWorldWidth;
+    
+    // Volumes Building
+    G4VPhysicalVolume*              BuildWorld();
+    void                            BuildSiPM();
+    
+    // Utility
+    G4bool                          fCheckOverlaps; // option to activate checking of volumes overlaps
+    
     // !TODO: Check usefulness
     // -- // Example legacy (TBD if useful)
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
                                       // magnetic field messenger
-
-    G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
     G4int   fNofLayers;     // number of layers
 };
 

@@ -1,30 +1,5 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-// $Id: B4cDetectorConstruction.cc 101905 2016-12-07 11:34:39Z gunter $
-// 
+// !TODO: All set!
+
 /// \file B4cDetectorConstruction.cc
 /// \brief Implementation of the B4cDetectorConstruction class
 
@@ -32,19 +7,15 @@
 #include "B4cCalorimeterSD.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
-
 #include "G4Box.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4PVReplica.hh"
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4AutoDelete.hh"
-
 #include "G4SDManager.hh"
-
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
-
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
@@ -57,26 +28,26 @@ G4GlobalMagFieldMessenger* B4cDetectorConstruction::fMagFieldMessenger = 0;
 
 B4cDetectorConstruction::B4cDetectorConstruction()
  : G4VUserDetectorConstruction(),
-   fCheckOverlaps(true),
-   fNofLayers(-1)
-{
+   fCheckOverlaps(true) {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B4cDetectorConstruction::~B4cDetectorConstruction()
-{ 
+B4cDetectorConstruction::~B4cDetectorConstruction() {
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B4cDetectorConstruction::Construct()
-{
-  // Define materials 
-  DefineMaterials();
-  
-  // Define volumes
-  return DefineVolumes();
+G4VPhysicalVolume* B4cDetectorConstruction::Construct() {
+    
+    // Define Materials & Specifics
+    DefineMaterials();
+    DefineSiPM();
+    DefineSubstrate();
+    DefineWorld();
+
+    // Define volumes
+    return BuildWorld();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -86,58 +57,87 @@ void B4cDetectorConstruction::DefineMaterials()
     G4NistManager* nistManager = G4NistManager::Instance();
     nistManager->FindOrBuildMaterial("G4_AIR");
     nistManager->FindOrBuildMaterial("G4_Fe");
-    nistManager->FindOrBuildMaterial("G4_Pb");
-    nistManager->FindOrBuildMaterial("G4_U");
-    nistManager->FindOrBuildMaterial("G4_W");
-    nistManager->FindOrBuildMaterial("G4_SODIUM_IODIDE");
+    nistManager->FindOrBuildMaterial("G4_Si");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
-{
-    fNofLayers                =     25;
-    G4double absoThickness    =     90.*mm; //Fe
-    G4double gapThickness     =     20.*mm; //SODIUM_IODIDE
-    G4double calorSizeXY      =     1000.*mm;
-    auto layerThickness       =     absoThickness + gapThickness;
-    auto calorThickness       =     fNofLayers * layerThickness;
-    auto worldSizeXY          =     1.01*calorSizeXY;
-    auto worldSizeZ           =     1.01*calorThickness;
-    auto defaultMaterial      =     G4Material::GetMaterial("G4_AIR");
-    auto absorberMaterial     =     G4Material::GetMaterial("G4_Fe");
-    auto gapMaterial          =     G4Material::GetMaterial("G4_SODIUM_IODIDE");
-  
-  if ( ! defaultMaterial || ! absorberMaterial || ! gapMaterial )
-  {
-      G4ExceptionDescription msg;
-      msg << "Cannot retrieve materials already defined.";
-      G4Exception("B4DetectorConstruction::DefineVolumes()","MyCode0001", FatalException, msg);
-  }  
-   
-    auto worldS
-    = new G4Box("World",
-                worldSizeXY/2,
-                worldSizeXY/2,
-                worldSizeZ/2);
+void B4cDetectorConstruction::DefineSubstrate() {
     
-    auto worldLV
-    = new G4LogicalVolume(
-                 worldS,           // its solid
-                 defaultMaterial,  // its material
-                 "World");         // its name
+    // Substrate Definition
+    fSubstrateMaterial          =   G4Material::GetMaterial("G4_Si");
+    fSubstrateHeight            =   1000.*mm;
+    fSubstrateWidth             =   1000.*mm;
+    fSubstrateDepth             =   10.*mm;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B4cDetectorConstruction::DefineSiPM() {
+    
+    // SiPM Cell
+    fSiPMCellMaterial           =   G4Material::GetMaterial("G4_Si");
+    fSiPMCellHeight             =   10.*mm;
+    fSiPMCellWidth              =   10.*mm;
+    fSiPMCellDepth              =   10.*mm;
+    fSiPMCellGridSpacingX       =   5.*mm;
+    fSiPMCellGridSpacingY       =   5.*mm;
+    fSiPMCellGridNumberX        =   10;
+    fSiPMCellGridNumberY        =   10;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B4cDetectorConstruction::DefineWorld() {
+    
+    // SiPM Cell
+    fWorldMaterial           =   G4Material::GetMaterial("G4_AIR");
+    fWorldWidth              =   10.*m; //X
+    fWorldHeight             =   2.*m;  //Y
+    fWorldDepth              =   2.*m;  //Z
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B4cDetectorConstruction::BuildSiPM() {
+    
+    auto fSiPMSolid     =   new G4Box("SiPMSolid",
+                                      fSiPMCellWidth/2,
+                                      fSiPMCellHeight/2,
+                                      fSiPMCellDepth/2);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4VPhysicalVolume* B4cDetectorConstruction::BuildWorld()
+{
+    if ( !(fWorldMaterial&&fSiPMCellMaterial&&fSubstrateMaterial) ) {
+        G4ExceptionDescription msg;
+        msg << "Have you fetched all Materials in DefineMaterial()?";
+        G4Exception("B4DetectorConstruction::DefineMaterials()","MyCode0001", FatalException, msg);
+    }
+   
+    auto fWorldSolid    =   new G4Box("WorldSolid",
+                                      fWorldWidth/2,    //X
+                                      fWorldHeight/2,   //Y
+                                      fWorldDepth/2);   //Z
+    
+    auto fWorldLogical  =   new G4LogicalVolume(fWorldSolid,
+                                                fWorldMaterial,
+                                                "WorldLogical");
                                    
-  auto worldPV
-    = new G4PVPlacement(
-                 0,                // no rotation
-                 G4ThreeVector(),  // at (0,0,0)
-                 worldLV,          // its logical volume                         
-                 "World",          // its name
-                 0,                // its mother  volume
-                 false,            // no boolean operation
-                 0,                // copy number
-                 fCheckOverlaps);  // checking overlaps 
+    auto fWorldPlacement=   new G4PVPlacement(0,                // no rotation
+                                              G4ThreeVector(),  // at (0,0,0)
+                                              fWorldLogical,          // its logical volume
+                                              "WorldPlacement", // its name
+                                              0,                // its mother  volume
+                                              false,            // no boolean operation
+                                              0,                // copy number
+                                              fCheckOverlaps);  // checking overlaps
   
+    /*
+    BuildSiPM ();
+    
   //                               
   // Calorimeter
   //  
@@ -233,8 +233,8 @@ G4VPhysicalVolume* B4cDetectorConstruction::DefineVolumes()
                  false,            // no boolean operation
                  0,                // copy number
                  fCheckOverlaps);  // checking overlaps 
- 
-  return worldPV;
+ */
+  return fWorldPlacement;
 }
 
 void B4cDetectorConstruction::ConstructSDandField()
