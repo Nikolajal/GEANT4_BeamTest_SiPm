@@ -9,7 +9,7 @@
 
 G4ThreadLocal G4Allocator<B4cCalorHit>* B4cCalorHitAllocator = 0;
 
-B4cCalorHit::B4cCalorHit()
+SiPMHit::SiPMHit()
  :  G4VHit(),
     fEdep(0.),
     fTrackLength(0.),
@@ -18,12 +18,12 @@ B4cCalorHit::B4cCalorHit()
     
 }
 
-B4cCalorHit::~B4cCalorHit()
+SiPMHit::~SiPMHit()
 {
     
 }
 
-B4cCalorHit::B4cCalorHit(const B4cCalorHit& right)
+SiPMHit::SiPMHit(const B4cCalorHit& right)
   : G4VHit()
 {
     fEdep           =   right.fEdep;
@@ -31,7 +31,7 @@ B4cCalorHit::B4cCalorHit(const B4cCalorHit& right)
     fPoint_dE_Vector=   right.fPoint_dE_Vector;
 }
 
-const B4cCalorHit& B4cCalorHit::operator=(const B4cCalorHit& right)
+const SiPMHit& SiPMHit::operator=(const B4cCalorHit& right)
 {
     fEdep           =   right.fEdep;
     fTrackLength    =   right.fTrackLength;
@@ -39,7 +39,7 @@ const B4cCalorHit& B4cCalorHit::operator=(const B4cCalorHit& right)
     return *this;
 }
 
-G4int B4cCalorHit::operator==(const B4cCalorHit& right) const
+G4int SiPMHit::operator==(const B4cCalorHit& right) const
 {
     return         ( this == &right ) ? 1 : 0;
 }

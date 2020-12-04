@@ -1,5 +1,5 @@
-#ifndef B4cCalorHit_h
-#define B4cCalorHit_h
+#ifndef SiPMHit_hh
+#define SiPMHit_hh
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -8,15 +8,15 @@
 #include "G4Threading.hh"
 #include "G4StepPoint.hh"
 
-class B4cCalorHit : public G4VHit
+class SiPMHit : public G4VHit
 {
   public:
-                        B4cCalorHit         ();
-                        B4cCalorHit         (const B4cCalorHit&);
-    virtual             ~B4cCalorHit        ();
+    SiPMHit         ();
+    SiPMHit         (const B4cCalorHit&);
+    virtual             ~SiPMHit        ();
 
-    const B4cCalorHit&  operator    =       (const B4cCalorHit&);
-    G4int               operator    ==      (const B4cCalorHit&) const;
+    const SiPMHit&  operator    =       (const SiPMHit&);
+    G4int               operator    ==      (const SiPMHit&) const;
 
     inline void*        operator    new     (size_t);
     inline void         operator    delete  (void*);
@@ -38,9 +38,9 @@ class B4cCalorHit : public G4VHit
 
 using B4cCalorHitsCollection = G4THitsCollection<B4cCalorHit>;
 
-extern G4ThreadLocal G4Allocator<B4cCalorHit>* B4cCalorHitAllocator;
+extern G4ThreadLocal G4Allocator<SiPMHit>* SiPMHitAllocator;
 
-inline void*            B4cCalorHit::operator new(size_t)
+inline void*            SiPMHit::operator new(size_t)
 {
     if (!B4cCalorHitAllocator)
     {
@@ -51,7 +51,7 @@ inline void*            B4cCalorHit::operator new(size_t)
     return hit;
 }
 
-inline void             B4cCalorHit::operator delete(void *hit)
+inline void             SiPMHit::operator delete(void *hit)
 {
     if (!B4cCalorHitAllocator)
     {
@@ -60,24 +60,24 @@ inline void             B4cCalorHit::operator delete(void *hit)
     B4cCalorHitAllocator->FreeSingle((B4cCalorHit*) hit);
 }
 
-inline void             B4cCalorHit::Add(G4double de, G4double dl, G4StepPoint* p)
+inline void             SiPMHit::Add(G4double de, G4double dl, G4StepPoint* p)
 {
     fEdep += de;
     fTrackLength += dl;
     fPoint_dE_Vector += (p->GetPosition())*de;
 }
 
-inline G4double         B4cCalorHit::GetEdep() const
+inline G4double         SiPMHit::GetEdep() const
 {
     return fEdep;
 }
 
-inline G4ThreeVector   B4cCalorHit::GetPoint_dE_Vector() const
+inline G4ThreeVector   SiPMHit::GetPoint_dE_Vector() const
 {
     return fPoint_dE_Vector*(1/fEdep);
 }
 
-inline G4double         B4cCalorHit::GetTrackLength() const
+inline G4double         SiPMHit::GetTrackLength() const
 {
     return fTrackLength;
 }

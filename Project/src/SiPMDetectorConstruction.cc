@@ -14,6 +14,7 @@
 #include "G4GlobalMagFieldMessenger.hh"
 #include "G4AutoDelete.hh"
 #include "G4SDManager.hh"
+#include "G4AssemblyVolume.hh"
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 #include "G4PhysicalConstants.hh"
@@ -99,12 +100,57 @@ void B4cDetectorConstruction::DefineWorld() {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B4cDetectorConstruction::BuildSiPM() {
+void B4cDetectorConstruction::BuildSiPM( G4LogicalVolume *fWorldLogical ) {
     
-    auto fSiPMSolid     =   new G4Box("SiPMSolid",
-                                      fSiPMCellWidth/2,
-                                      fSiPMCellHeight/2,
-                                      fSiPMCellDepth/2);
+    auto fSiPMCellSolid     =   new G4Box("SiPMCellSolid",
+                                          fSiPMCellWidth/2,
+                                          fSiPMCellHeight/2,
+                                          fSiPMCellDepth/2);
+    
+    auto fSiPMCellLogical   =   new G4LogicalVolume(fSiPMCellSolid,
+                                                    fSiPMCellMaterial,
+                                                    "SiPMCellLogical");
+    
+    auto fSiPMCellAssembly  =   new G4AssemblyVolume();
+    G4RotationMatrix fRotationNull (0,0,0);
+    G4ThreeVector fTranslationX (0,0,0);
+    G4ThreeVector fTranslationY (0,0,0);
+    
+    for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+        
+        fTranslationY.setY(0-(fSiPMCellHeight+fSiPMCellGridSpacingY));
+        G4Transform3D f3DTransform ( fRotationNull, fTranslationY );
+        fSiPMCellAssembly->AddPlacedVolume( fSiPMCellLogical, f3DTransform );
+    }
+    for ( int iClm = 0; iClm < fSiPMCellGridNumberX; ++iClm )   {
+        
+        fTranslationX.setX(0+(fSiPMCellWidth+fSiPMCellGridSpacingX));
+        G4Transform3D f3DTransform ( fRotationNull, fTranslationX );
+        fSiPMCellAssembly->MakeImprint( fWorldLogical, f3DTransform );
+    }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void B4cDetectorConstruction::BuildSubstrate( G4LogicalVolume *fWorldLogical ) {
+    
+    auto fSubstrateSolid    =   new G4Box("SubstrateSolid",
+                                          fSubstrateWidth/2,
+                                          fSubstrateHeight/2,
+                                          fSubstrateDepth/2);
+    
+    auto fSubstrateLogical  =   new G4LogicalVolume(fSubstrateSolid,
+                                                    fSubstrateMaterial,
+                                                    "SubstrateLogical");
+    
+    auto fWorldPlacement    =   new G4PVPlacement(0,                    // no rotation
+                                                  G4ThreeVector(),      // at (0,0,0)
+                                                  fSubstrateLogical,    // its logical volume
+                                                  "SubstratePlacement", // its name
+                                                  fWorldLogical,        // its mother  volume
+                                                  false,                // no boolean operation
+                                                  0,                    // copy number
+                                                  fCheckOverlaps);      // checking overlaps
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -128,16 +174,18 @@ G4VPhysicalVolume* B4cDetectorConstruction::BuildWorld()
                                    
     auto fWorldPlacement=   new G4PVPlacement(0,                // no rotation
                                               G4ThreeVector(),  // at (0,0,0)
-                                              fWorldLogical,          // its logical volume
+                                              fWorldLogical,    // its logical volume
                                               "WorldPlacement", // its name
                                               0,                // its mother  volume
                                               false,            // no boolean operation
                                               0,                // copy number
                                               fCheckOverlaps);  // checking overlaps
   
-    /*
-    BuildSiPM ();
     
+    BuildSiPM       ( fWorldLogical );
+    BuildSubstrate  ( fWorldLogical );
+    
+    /*
   //                               
   // Calorimeter
   //  
@@ -239,18 +287,17 @@ G4VPhysicalVolume* B4cDetectorConstruction::BuildWorld()
 
 void B4cDetectorConstruction::ConstructSDandField()
 {
-  
     auto absoSD = new B4cCalorimeterSD("AbsorberSD", "AbsorberHitsCollection", fNofLayers);
     G4SDManager::GetSDMpointer()->AddNewDetector(absoSD);
-    SetSensitiveDetector("AbsoLV",absoSD);
+    SetSensitiveDetector("WorldLogical",absoSD);
 
     auto gapSD = new B4cCalorimeterSD("GapSD", "GapHitsCollection", fNofLayers);
     G4SDManager::GetSDMpointer()->AddNewDetector(gapSD);
-    SetSensitiveDetector("GapLV",gapSD);
+    SetSensitiveDetector("SiPMCellLogical",gapSD);
 
     G4ThreeVector fieldValue;
     fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
     fMagFieldMessenger->SetVerboseLevel(1);
-    
+
     G4AutoDelete::Register(fMagFieldMessenger);
 }

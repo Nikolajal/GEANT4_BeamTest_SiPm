@@ -1,39 +1,38 @@
-#include "B4cCalorimeterSD.hh"
+/// \file   SiPMSD.cc
+/// \brief  Implementation of the SiPMSD class
+
+#include "SiPMSD.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
-B4cCalorimeterSD::B4cCalorimeterSD(
-                            const G4String& name, 
-                            const G4String& hitsCollectionName,
-                            G4int nofCells)
+SiPMSD::SiPMSD              (const G4String& name, const G4String& hitsCollectionName,G4int nofCells)
  : G4VSensitiveDetector(name),
    fHitsCollection(nullptr),
-   fNofCells(nofCells)
-{
+   fNofCells(nofCells)  {
+       
     collectionName.insert(hitsCollectionName);
 }
 
-B4cCalorimeterSD::~B4cCalorimeterSD() 
-{ 
+SiPMSD::~SiPMSD()   {
 
 }
 
-void B4cCalorimeterSD::Initialize(G4HCofThisEvent* hce)
-{
+void SiPMSD::Initialize( G4HCofThisEvent* hce)   {
+    /*
     fHitsCollection = new B4cCalorHitsCollection(SensitiveDetectorName, collectionName[0]);
     auto hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     hce->AddHitsCollection( hcID, fHitsCollection );
     for (G4int i=0; i<fNofCells+1; i++ )
     {
         fHitsCollection->insert(new B4cCalorHit());
-    }
+    }*/
 }
 
-G4bool B4cCalorimeterSD::ProcessHits(G4Step* step, G4TouchableHistory*)
-{
+G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory*)   {
+    /*
     auto edep = step->GetTotalEnergyDeposit();
     
     G4double stepLength = 0.;
@@ -60,10 +59,10 @@ G4bool B4cCalorimeterSD::ProcessHits(G4Step* step, G4TouchableHistory*)
     auto hitTotal = (*fHitsCollection)[fHitsCollection->entries()-1];
     hit->Add(edep, stepLength,pos);
     hitTotal->Add(edep, stepLength,pos);
+     */
     return true;
 }
 
-void B4cCalorimeterSD::EndOfEvent(G4HCofThisEvent*)
-{
+void SiPMSD::EndOfEvent ( G4HCofThisEvent* )    {
     
 }

@@ -53,7 +53,8 @@ private:
     
     // Volumes Building
     G4VPhysicalVolume*              BuildWorld();
-    void                            BuildSiPM();
+    void                            BuildSiPM ( G4LogicalVolume *fWorldLogical );
+    void                            BuildSubstrate( G4LogicalVolume *fWorldLogical );
     
     // Utility
     G4bool                          fCheckOverlaps; // option to activate checking of volumes overlaps
