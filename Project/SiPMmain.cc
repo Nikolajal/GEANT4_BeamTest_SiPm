@@ -28,10 +28,10 @@
 /// \file exampleB4c.cc
 /// \brief Main program of the B4c example
 
-#include "B4cDetectorConstruction.hh"
-#include "B4PrimaryGeneratorAction.hh"
-#include "B4RunAction.hh"
-#include "B4cEventAction.hh"
+#include "SiPMDetectorConstruction.hh"
+#include "PrimaryGeneratorAction.hh"
+#include "RunAction.hh"
+#include "EventAction.hh"
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -61,7 +61,7 @@ int main(int argc,char** argv)
 
   // Set mandatory initialization classes
   //
-  B4cDetectorConstruction* detConstruction = new B4cDetectorConstruction();
+  SiPMDetectorConstruction* detConstruction = new SiPMDetectorConstruction();
   runManager->SetUserInitialization(detConstruction);
 
   G4VModularPhysicsList* physicsList = new FTFP_BERT;
@@ -69,11 +69,11 @@ int main(int argc,char** argv)
     
   // Set user action classes
   //
-  runManager->SetUserAction(new B4PrimaryGeneratorAction());
+  runManager->SetUserAction(new PrimaryGeneratorAction());
   //
-  runManager->SetUserAction(new B4RunAction());
+  runManager->SetUserAction(new RunAction());
   //
-  runManager->SetUserAction(new B4cEventAction());
+  runManager->SetUserAction(new EventAction());
   
   // Initialize G4 kernel
   //

@@ -20,15 +20,15 @@ SiPMSD::~SiPMSD()   {
 
 }
 
-void SiPMSD::Initialize( G4HCofThisEvent* hce)   {
-    /*
-    fHitsCollection = new B4cCalorHitsCollection(SensitiveDetectorName, collectionName[0]);
+void SiPMSD::Initialize( G4HCofThisEvent* hce )   {
+    
+    fHitsCollection =   new SiPMHitsCollection ( SensitiveDetectorName, collectionName[0] );
     auto hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     hce->AddHitsCollection( hcID, fHitsCollection );
     for (G4int i=0; i<fNofCells+1; i++ )
     {
-        fHitsCollection->insert(new B4cCalorHit());
-    }*/
+        fHitsCollection->insert(new SiPMHit());
+    }
 }
 
 G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory*)   {

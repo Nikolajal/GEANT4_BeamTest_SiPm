@@ -3,31 +3,35 @@
 /// \file B4cDetectorConstruction.hh
 /// \brief Definition of the B4cDetectorConstruction class
 
-#ifndef B4cDetectorConstruction_h
-#define B4cDetectorConstruction_h
+#ifndef SiPMDetectorConstruction_h
+#define SiPMDetectorConstruction_h
 
 #include "G4VUserDetectorConstruction.hh"
 #include "G4Material.hh"
+#include "G4ThreeVector.hh"
 #include "globals.hh"
 
 class G4VPhysicalVolume;
 class G4GlobalMagFieldMessenger;
 
-class B4cDetectorConstruction : public G4VUserDetectorConstruction  {
+class SiPMDetectorConstruction : public G4VUserDetectorConstruction  {
 
     // -- // Public methods & variables
 public:
     
     // Constructors
-                                    B4cDetectorConstruction();
-    
+                                    SiPMDetectorConstruction();
+
     // Destructors
-    virtual                        ~B4cDetectorConstruction();
+    virtual                        ~SiPMDetectorConstruction();
     
     // Build the Physical and Logical Volume
     virtual G4VPhysicalVolume*      Construct();
     virtual void                    ConstructSDandField();
-
+    
+    // Setters for the GUI Command
+    void                            fMoveAbsorber   ( G4ThreeVector fTranslation );
+    void                            fSetAbsorberMat ( G4String fMaterialChoice );
     
     // -- // Private methods & variables
 private:
@@ -46,6 +50,12 @@ private:
     G4Material                     *fSubstrateMaterial;
     G4double                        fSubstrateHeight,   fSubstrateDepth,    fSubstrateWidth;
     
+    // Absorber Specifics
+    void                            DefineAbsorber();
+    G4Material                     *fAbsorberMaterial;
+    G4double                        fAbsorberHeight,   fAbsorberDepth,    fAbsorberWidth;
+    G4ThreeVector                   fAbsorberPosition;
+    
     // World Specifics
     void                            DefineWorld();
     G4Material                     *fWorldMaterial;
@@ -54,7 +64,8 @@ private:
     // Volumes Building
     G4VPhysicalVolume*              BuildWorld();
     void                            BuildSiPM ( G4LogicalVolume *fWorldLogical );
-    void                            BuildSubstrate( G4LogicalVolume *fWorldLogical );
+    void                            BuildSubstrate ( G4LogicalVolume *fWorldLogical );
+    void                            BuildAbsorber ( G4LogicalVolume *fWorldLogical );
     
     // Utility
     G4bool                          fCheckOverlaps; // option to activate checking of volumes overlaps
@@ -63,7 +74,6 @@ private:
     // -- // Example legacy (TBD if useful)
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
                                       // magnetic field messenger
-    G4int   fNofLayers;     // number of layers
 };
 
 #endif

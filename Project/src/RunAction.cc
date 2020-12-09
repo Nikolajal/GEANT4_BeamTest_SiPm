@@ -1,8 +1,8 @@
 /// \file   RunAction.cc
 /// \brief  Implementation of the RunAction class
 
-#include "B4RunAction.hh"
-#include "B4Analysis.hh"
+#include "RunAction.hh"
+#include "SiPMAnalysis.hh"
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
@@ -11,7 +11,7 @@
 using namespace std;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B4RunAction::B4RunAction()
+RunAction::RunAction()
  : G4UserRunAction()
 {
   // set printing event number per each event
@@ -48,14 +48,14 @@ B4RunAction::B4RunAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B4RunAction::~B4RunAction()
+RunAction::~RunAction()
 {
   delete G4AnalysisManager::Instance();  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
+void RunAction::BeginOfRunAction(const G4Run* /*run*/)
 { 
   //inform the runManager to save random number seed
   //G4RunManager::GetRunManager()->SetRandomNumberStore(true);
@@ -71,7 +71,7 @@ void B4RunAction::BeginOfRunAction(const G4Run* /*run*/)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B4RunAction::EndOfRunAction(const G4Run* /*run*/)
+void RunAction::EndOfRunAction(const G4Run* /*run*/)
 {
   // print histogram statistics
   //

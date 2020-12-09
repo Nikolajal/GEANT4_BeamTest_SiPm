@@ -12,10 +12,10 @@ class SiPMHit : public G4VHit
 {
   public:
     SiPMHit         ();
-    SiPMHit         (const B4cCalorHit&);
+    SiPMHit         (const SiPMHit&);
     virtual             ~SiPMHit        ();
 
-    const SiPMHit&  operator    =       (const SiPMHit&);
+    const SiPMHit&      operator    =       (const SiPMHit&);
     G4int               operator    ==      (const SiPMHit&) const;
 
     inline void*        operator    new     (size_t);
@@ -36,28 +36,27 @@ class SiPMHit : public G4VHit
     G4ThreeVector       fPoint_dE_Vector;   ///< Point in the sensitive volume
 };
 
-using B4cCalorHitsCollection = G4THitsCollection<B4cCalorHit>;
-
-extern G4ThreadLocal G4Allocator<SiPMHit>* SiPMHitAllocator;
+using                                       SiPMHitsCollection  = G4THitsCollection<SiPMHit>;
+extern G4ThreadLocal G4Allocator<SiPMHit>*  SiPMHitAllocator;
 
 inline void*            SiPMHit::operator new(size_t)
 {
-    if (!B4cCalorHitAllocator)
+    if (!SiPMHitAllocator)
     {
-        B4cCalorHitAllocator = new G4Allocator<B4cCalorHit>;
+        SiPMHitAllocator = new G4Allocator<SiPMHit>;
     }
     void *hit;
-    hit = (void *) B4cCalorHitAllocator->MallocSingle();
+    hit = (void *) SiPMHitAllocator->MallocSingle();
     return hit;
 }
 
 inline void             SiPMHit::operator delete(void *hit)
 {
-    if (!B4cCalorHitAllocator)
+    if (!SiPMHitAllocator)
     {
-        B4cCalorHitAllocator = new G4Allocator<B4cCalorHit>;
+        SiPMHitAllocator = new G4Allocator<SiPMHit>;
     }
-    B4cCalorHitAllocator->FreeSingle((B4cCalorHit*) hit);
+    SiPMHitAllocator->FreeSingle((SiPMHit*) hit);
 }
 
 inline void             SiPMHit::Add(G4double de, G4double dl, G4StepPoint* p)

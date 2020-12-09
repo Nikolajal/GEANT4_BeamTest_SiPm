@@ -1,7 +1,7 @@
-#include "B4cEventAction.hh"
-#include "B4cCalorimeterSD.hh"
-#include "B4cCalorHit.hh"
-#include "B4Analysis.hh"
+#include "EventAction.hh"
+#include "SiPMSD.hh"
+#include "SiPMHit.hh"
+#include "SiPMAnalysis.hh"
 
 #include "G4RunManager.hh"
 #include "G4Event.hh"
@@ -12,7 +12,7 @@
 #include "Randomize.hh"
 #include <iomanip>
 
-B4cEventAction::B4cEventAction()
+EventAction::EventAction()
  : G4UserEventAction(),
    fAbsHCID(-1),
    fGapHCID(-1)
@@ -20,14 +20,14 @@ B4cEventAction::B4cEventAction()
     
 }
 
-B4cEventAction::~B4cEventAction()
+EventAction::~EventAction()
 {
     
 }
 
-B4cCalorHitsCollection* B4cEventAction::GetHitsCollection(G4int hcID, const G4Event* event) const
+SiPMHitsCollection* EventAction::GetHitsCollection(G4int hcID, const G4Event* event) const
 {
-    auto hitsCollection = static_cast<B4cCalorHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcID));
+    auto hitsCollection = static_cast<SiPMHitsCollection*>(event->GetHCofThisEvent()->GetHC(hcID));
   
     if ( ! hitsCollection )
     {
@@ -38,12 +38,12 @@ B4cCalorHitsCollection* B4cEventAction::GetHitsCollection(G4int hcID, const G4Ev
     return hitsCollection;
 }
 
-void B4cEventAction::BeginOfEventAction(const G4Event* event)
+void EventAction::BeginOfEventAction(const G4Event* event)
 {
 
 }
 
-void B4cEventAction::EndOfEventAction(const G4Event* event)
+void EventAction::EndOfEventAction(const G4Event* event)
 {  
     if ( fAbsHCID == -1 )
     {
