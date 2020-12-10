@@ -1,3 +1,4 @@
+#include "SiPMDetectorConstruction.hh"
 #include "EventAction.hh"
 #include "SiPMSD.hh"
 #include "SiPMHit.hh"
@@ -14,8 +15,7 @@
 
 EventAction::EventAction()
  : G4UserEventAction(),
-   fAbsHCID(-1),
-   fGapHCID(-1)
+   fCollectionHitsID(nullptr)
 {
     
 }
@@ -38,21 +38,38 @@ SiPMHitsCollection* EventAction::GetHitsCollection(G4int hcID, const G4Event* ev
     return hitsCollection;
 }
 
-void EventAction::BeginOfEventAction(const G4Event* event)
+void EventAction::BeginOfEventAction    ( const G4Event* event )
 {
-
+    
 }
 
-void EventAction::EndOfEventAction(const G4Event* event)
-{  
-    if ( fAbsHCID == -1 )
+void EventAction::EndOfEventAction      ( const G4Event* fCurrent_Event )
+{
+/*
+    G4int fSiPMCellGridNumberY = 4;
+    char* fName = new char[256];
+    if ( !fCollectionHitsID )
     {
-        fAbsHCID    = G4SDManager::GetSDMpointer()->GetCollectionID("AbsorberHitsCollection");
-        fGapHCID    = G4SDManager::GetSDMpointer()->GetCollectionID("GapHitsCollection");
+        fCollectionHitsID   =   new G4int [fSiPMCellGridNumberY];
+        for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+            
+            std::sprintf(fName,"SiPMHitsCollection_%i",iRow);
+            fCollectionHitsID[iRow] = G4SDManager::GetSDMpointer()->GetCollectionID(fName);
+            if ( !fCollectionHitsID[iRow] )
+            {
+                G4ExceptionDescription msg;
+                msg << "Could not fetch collectionshit";
+                G4Exception("B4DetectorConstruction::DefineMaterials()","MyCode0001", FatalException, msg);
+            }
+        }
     }
-    auto absoHC     = GetHitsCollection(fAbsHCID, event);
-    auto gapHC      = GetHitsCollection(fGapHCID, event);
-
+    
+    SiPMHitsCollection    **fCollectionHits     = new SiPMHitsCollection *[fSiPMCellGridNumberY];
+    for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+        
+        fCollectionHits[iRow] = GetHitsCollection(fCollectionHitsID[iRow], fCurrent_Event);
+    }
+    /*
     auto absoHit    = (*absoHC) [absoHC ->entries()-1];
     auto gapHit     = (*gapHC)  [gapHC  ->entries()-1];
     
@@ -69,5 +86,6 @@ void EventAction::EndOfEventAction(const G4Event* event)
     analysisManager->FillNtupleDColumn(8, absoHit->GetPoint_dE_Vector().z());
     analysisManager->FillNtupleDColumn(9, gapHit->GetPoint_dE_Vector().z());
     
-    analysisManager->AddNtupleRow();
+    
+    analysisManager->AddNtupleRow(); */
 }  

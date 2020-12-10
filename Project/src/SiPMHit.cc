@@ -23,7 +23,7 @@ SiPMHit::~SiPMHit()
     
 }
 
-SiPMHit::SiPMHit(const SiPMHit& right)
+SiPMHit::SiPMHit( const SiPMHit& right)
   : G4VHit()
 {
     fEdep           =   right.fEdep;

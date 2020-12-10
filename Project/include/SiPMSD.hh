@@ -21,7 +21,7 @@ class SiPMSD : public G4VSensitiveDetector
     virtual void                EndOfEvent  ( G4HCofThisEvent* hitCollection);
 
   private:
-    SiPMHitsCollection*     fHitsCollection;
+    SiPMHitsCollection*         fHitsCollection;
     G4int                       fNofCells;
 };
 

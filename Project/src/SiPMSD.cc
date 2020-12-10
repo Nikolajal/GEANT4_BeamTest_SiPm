@@ -8,8 +8,8 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 
-SiPMSD::SiPMSD              (const G4String& name, const G4String& hitsCollectionName,G4int nofCells)
- : G4VSensitiveDetector(name),
+SiPMSD::SiPMSD              (const G4String& fDetectorName, const G4String& hitsCollectionName, G4int nofCells)
+ : G4VSensitiveDetector(fDetectorName),
    fHitsCollection(nullptr),
    fNofCells(nofCells)  {
        
@@ -21,17 +21,18 @@ SiPMSD::~SiPMSD()   {
 }
 
 void SiPMSD::Initialize( G4HCofThisEvent* hce )   {
-    
+    /*
     fHitsCollection =   new SiPMHitsCollection ( SensitiveDetectorName, collectionName[0] );
     auto hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     hce->AddHitsCollection( hcID, fHitsCollection );
     for (G4int i=0; i<fNofCells+1; i++ )
     {
         fHitsCollection->insert(new SiPMHit());
-    }
+    }*/
 }
 
-G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory*)   {
+G4bool SiPMSD::ProcessHits ( G4Step* step, G4TouchableHistory* )   {
+
     /*
     auto edep = step->GetTotalEnergyDeposit();
     
@@ -59,8 +60,9 @@ G4bool SiPMSD::ProcessHits(G4Step* step, G4TouchableHistory*)   {
     auto hitTotal = (*fHitsCollection)[fHitsCollection->entries()-1];
     hit->Add(edep, stepLength,pos);
     hitTotal->Add(edep, stepLength,pos);
-     */
     return true;
+     */
+    return false;
 }
 
 void SiPMSD::EndOfEvent ( G4HCofThisEvent* )    {

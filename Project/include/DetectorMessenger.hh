@@ -31,17 +31,6 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveXDir;
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveYDir;
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveZDir;
-    
-    
-    /*
-    G4UIcmdWithAString*        GapMaterCmd;
-    G4UIcmdWithADoubleAndUnit* AbsThickCmd;
-    G4UIcmdWithADoubleAndUnit* GapThickCmd;
-    G4UIcmdWithADoubleAndUnit* SizeYZCmd;
-    G4UIcmdWithAnInteger*      NbLayersCmd;
-    G4UIcmdWithADoubleAndUnit* MagFieldCmd;
-    G4UIcmdWithoutParameter*   UpdateCmd;
-     */
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

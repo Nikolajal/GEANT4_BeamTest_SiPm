@@ -20,6 +20,7 @@
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4ThreadLocal 
@@ -83,10 +84,10 @@ void SiPMDetectorConstruction::DefineAbsorber() {
     
     // Substrate Definition
     fAbsorberPosition           =   G4ThreeVector (0,0,0);
-    fSubstrateMaterial          =   G4Material::GetMaterial("G4_Si");
-    fSubstrateWidth             =   4.5*cm;
-    fSubstrateHeight            =   3.5*cm;
-    fSubstrateDepth             =   fSiPMCellDepth;
+    fAbsorberMaterial           =   G4Material::GetMaterial("G4_Si");
+    fAbsorberWidth              =   4.5*cm;
+    fAbsorberHeight             =   3.5*cm;
+    fAbsorberDepth              =   fSiPMCellDepth;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -106,41 +107,71 @@ void SiPMDetectorConstruction::DefineWorld() {
     
     // SiPM Cell
     fWorldMaterial           =   G4Material::GetMaterial("G4_Galactic");
-    fWorldWidth              =   fSubstrateWidth*3; //X
-    fWorldHeight             =   fSubstrateHeight*3;  //Y
-    fWorldDepth              =   2.*m;  //Z
+    fWorldWidth              =   1.*m; //X
+    fWorldHeight             =   1.*m;  //Y
+    fWorldDepth              =   4.*m;  //Z
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void SiPMDetectorConstruction::BuildSiPM( G4LogicalVolume *fWorldLogical ) {
     
-    auto fSiPMCellSolid     =   new G4Box("SiPMCellSolid",
-                                          fSiPMCellWidth/2,
-                                          fSiPMCellHeight/2,
-                                          fSiPMCellDepth/2);
+    G4Box             **fSiPMCellSolid      =   new G4Box *[fSiPMCellGridNumberY];
     
-    auto fSiPMCellLogical   =   new G4LogicalVolume(fSiPMCellSolid,
-                                                    fSiPMCellMaterial,
-                                                    "SiPMCellLogical");
+    G4LogicalVolume   **fSiPMCellLogical    =   new G4LogicalVolume *[fSiPMCellGridNumberY];
     
     auto fSiPMCellAssembly  =   new G4AssemblyVolume();
     G4RotationMatrix    fRotationNull   (0,0,0);
-    G4ThreeVector       fTranslationX   (0,0,fWorldDepth-fSubstrateDepth);
-    G4ThreeVector       fTranslationY   (0,0,fWorldDepth-fSubstrateDepth);
+    
+    char* fName = new char[256];
     
     for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+    
+        std::sprintf(fName,"SiPMCellSolid_%i",iRow);
+        fSiPMCellSolid[iRow] =   new G4Box(fName,
+                                           fSiPMCellWidth/2,
+                                           fSiPMCellHeight/2,
+                                           fSiPMCellDepth/2);
         
+        std::sprintf(fName,"SiPMCellLogical_%i",iRow);
+        fSiPMCellLogical[iRow]   =   new G4LogicalVolume(fSiPMCellSolid[iRow],
+                                                         fSiPMCellMaterial,
+                                                         fName);
+                                                         
+        G4ThreeVector       fTranslationY   (0,-0.5*(fSiPMCellGridNumberY-2*iRow)*(fSiPMCellGridSpacingY+fSiPMCellHeight),0-fWorldDepth/2+fSubstrateDepth+fSiPMCellDepth/2);
         G4Transform3D f3DTransform ( fRotationNull, fTranslationY );
-        fSiPMCellAssembly->AddPlacedVolume( fSiPMCellLogical, f3DTransform );
-        fTranslationY.setY(0-(fSiPMCellHeight+fSiPMCellGridSpacingY));
+        fSiPMCellAssembly->AddPlacedVolume( fSiPMCellLogical[iRow], f3DTransform );
     }
     for ( int iClm = 0; iClm < fSiPMCellGridNumberX; ++iClm )   {
         
-        fTranslationX.setX(0+(fSiPMCellWidth+fSiPMCellGridSpacingX));
+        G4ThreeVector       fTranslationX   (-0.5*(fSiPMCellGridNumberX-2*iClm)*(fSiPMCellGridSpacingX+fSiPMCellWidth),0,0);
         G4Transform3D f3DTransform ( fRotationNull, fTranslationX );
         fSiPMCellAssembly->MakeImprint( fWorldLogical, f3DTransform );
     }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void SiPMDetectorConstruction::BuildAbsorber( G4LogicalVolume *fWorldLogical ) {
+    
+    auto fAbsorberSolid     =   new G4Box("AbsorberSolid",
+                                          fAbsorberWidth/2,
+                                          fAbsorberHeight/2,
+                                          fAbsorberDepth/2);
+    
+    auto fAbsorberLogical   =   new G4LogicalVolume(fAbsorberSolid,
+                                                    fAbsorberMaterial,
+                                                    "AbsorberLogical");
+
+    auto fAbsorberPlacement =   new G4PVPlacement(0,                // no rotation
+                                                  fAbsorberPosition,  // at (0,0,0)
+                                                  fAbsorberLogical, // its logical volume
+                                                  "fAbsorberPlacement", // its name
+                                                  fWorldLogical,    // its mother  volume
+                                                  false,            // no boolean operation
+                                                  0,                // copy number
+                                                  fCheckOverlaps);  // checking overlaps
+    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -157,7 +188,7 @@ void SiPMDetectorConstruction::BuildSubstrate( G4LogicalVolume *fWorldLogical ) 
                                                     "SubstrateLogical");
     
     auto fWorldPlacement    =   new G4PVPlacement(0,                    // no rotation
-                                                  G4ThreeVector(),      // at (0,0,0)
+                                                  G4ThreeVector(0,0,-fWorldDepth/2+fSubstrateDepth/2),      // at (0,0,0)
                                                   fSubstrateLogical,    // its logical volume
                                                   "SubstratePlacement", // its name
                                                   fWorldLogical,        // its mother  volume
@@ -186,7 +217,7 @@ G4VPhysicalVolume* SiPMDetectorConstruction::BuildWorld()
                                                 "WorldLogical");
                                    
     auto fWorldPlacement=   new G4PVPlacement(0,                // no rotation
-                                              G4ThreeVector(),  // at (0,0,0)
+                                              G4ThreeVector(0.,0.,0.),  // at (0,0,0)
                                               fWorldLogical,    // its logical volume
                                               "WorldPlacement", // its name
                                               0,                // its mother  volume
@@ -194,8 +225,8 @@ G4VPhysicalVolume* SiPMDetectorConstruction::BuildWorld()
                                               0,                // copy number
                                               fCheckOverlaps);  // checking overlaps
     
-    BuildSiPM       ( fWorldLogical );
-    BuildSubstrate  ( fWorldLogical );
+    //BuildSiPM       ( fWorldLogical );
+    //BuildSubstrate  ( fWorldLogical );
     //BuildAbsorber   ( fWorldLogical );
     
     return fWorldPlacement;
@@ -203,15 +234,34 @@ G4VPhysicalVolume* SiPMDetectorConstruction::BuildWorld()
 
 void SiPMDetectorConstruction::ConstructSDandField()
 {
-    auto fSensitive_SiPM = new SiPMSD ("Sensitive_SiPM", "SiPMHitsCollection", 1);
-    G4SDManager::GetSDMpointer()->AddNewDetector(fSensitive_SiPM);
-    SetSensitiveDetector("WorldLogical",fSensitive_SiPM);
+    /*
+    SiPMSD    **fSensitive_SiPM = new SiPMSD *[fSiPMCellGridNumberX];
+    
+    char* fName = new char[256];
+    char* fNam2 = new char[256];
+    
+    for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+        
+        std::sprintf(fName,"Sensitive_SiPM_%i",iRow);
+        std::sprintf(fNam2,"SiPMHitsCollection_%i",iRow);
+        fSensitive_SiPM[iRow]   =   new SiPMSD ( fName, fNam2, 1);
+        if (!fSensitive_SiPM[iRow]) {
+            
+            G4ExceptionDescription msg;
+            msg << "The material passed is not available, the default will be used" << G4endl;
+            G4Exception("SiPMDetectorConstruction::fSetAbsorberMat(G4String fMaterialChoice)","W_absorber_material", JustWarning, msg);
+        }
+        G4SDManager::GetSDMpointer()->AddNewDetector(fSensitive_SiPM[iRow]);
+        std::sprintf(fName,"SiPMCellLogical_%i",iRow);
+        SetSensitiveDetector( fName, fSensitive_SiPM[iRow]);
+    }
 
     G4ThreeVector fieldValue;
     fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
     fMagFieldMessenger->SetVerboseLevel(1);
 
     G4AutoDelete::Register(fMagFieldMessenger);
+     */
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

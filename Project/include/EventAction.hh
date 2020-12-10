@@ -11,13 +11,12 @@ public:
                             EventAction();
   virtual                   ~EventAction();
 
-  virtual void              BeginOfEventAction(const G4Event* event);
-  virtual void              EndOfEventAction(const G4Event* event);
+  virtual void              BeginOfEventAction  ( const G4Event* event );
+  virtual void              EndOfEventAction    ( const G4Event* event );
     
 private:
-  SiPMHitsCollection*   GetHitsCollection(G4int hcID,const G4Event* event) const;
-  G4int                     fAbsHCID;
-  G4int                     fGapHCID;
+  SiPMHitsCollection*       GetHitsCollection   ( G4int hcID, const G4Event* event ) const;
+  G4int                    *fCollectionHitsID;
 };
 
 #endif
