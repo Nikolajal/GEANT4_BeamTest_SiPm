@@ -1,4 +1,4 @@
-#ifndef SiPMSD_hh
+/*#ifndef SiPMSD_hh
 #define SiPMSD_hh
 
 /// \file   SiPMSD.hh
@@ -26,3 +26,4 @@ class SiPMSD : public G4VSensitiveDetector
 };
 
 #endif
+*/

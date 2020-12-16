@@ -363,9 +363,9 @@ CMakeFiles/exampleB1.dir/exampleB1.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/VTaskGroup.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/VUserTaskQueue.hh
  /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/exampleB1.cc
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1ActionInitialization.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1DetectorConstruction.hh
-CMakeFiles/exampleB1.dir/src/B1ActionInitialization.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/ActionInitialization.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/DetectorConstruction.hh
+CMakeFiles/exampleB1.dir/src/ActionInitialization.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Units/PhysicalConstants.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Units/SystemOfUnits.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Utility/defs.h
@@ -407,13 +407,13 @@ CMakeFiles/exampleB1.dir/src/B1ActionInitialization.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/pwdefs.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/templates.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/tls.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1ActionInitialization.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1EventAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1PrimaryGeneratorAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1RunAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1SteppingAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1ActionInitialization.cc
-CMakeFiles/exampleB1.dir/src/B1DetectorConstruction.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/ActionInitialization.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/EventAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/PrimaryGeneratorAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/RunAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/SteppingAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/ActionInitialization.cc
+CMakeFiles/exampleB1.dir/src/DetectorConstruction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Plane3D.h
@@ -705,9 +705,9 @@ CMakeFiles/exampleB1.dir/src/B1DetectorConstruction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1DetectorConstruction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1DetectorConstruction.cc
-CMakeFiles/exampleB1.dir/src/B1EventAction.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/DetectorConstruction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/DetectorConstruction.cc
+CMakeFiles/exampleB1.dir/src/EventAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -964,10 +964,10 @@ CMakeFiles/exampleB1.dir/src/B1EventAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1EventAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1RunAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1EventAction.cc
-CMakeFiles/exampleB1.dir/src/B1PrimaryGeneratorAction.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/EventAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/RunAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/EventAction.cc
+CMakeFiles/exampleB1.dir/src/PrimaryGeneratorAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Plane3D.h
@@ -1244,9 +1244,9 @@ CMakeFiles/exampleB1.dir/src/B1PrimaryGeneratorAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1PrimaryGeneratorAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1PrimaryGeneratorAction.cc
-CMakeFiles/exampleB1.dir/src/B1RunAction.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/PrimaryGeneratorAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/PrimaryGeneratorAction.cc
+CMakeFiles/exampleB1.dir/src/RunAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1515,11 +1515,143 @@ CMakeFiles/exampleB1.dir/src/B1RunAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1DetectorConstruction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1PrimaryGeneratorAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1RunAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1RunAction.cc
-CMakeFiles/exampleB1.dir/src/B1SteppingAction.cc.o
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/DetectorConstruction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/PrimaryGeneratorAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/RunAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/RunAction.cc
+CMakeFiles/exampleB1.dir/src/SensitiveDetector.cc.o
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Point3D.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Transform3D.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Transform3D.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Vector3D.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Units/PhysicalConstants.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Units/SystemOfUnits.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Utility/defs.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/AxisAngle.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/AxisAngle.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/LorentzVector.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/LorentzVector.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/Rotation.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/Rotation.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationInterfaces.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationInterfaces.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationX.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationX.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationY.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationY.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationZ.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/RotationZ.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/ThreeVector.h
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Vector/ThreeVector.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4AffineTransform.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4AffineTransform.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Allocator.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4AllocatorPool.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4AutoLock.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4CollectionNameVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4DataVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4DataVector.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4DynamicParticle.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4DynamicParticle.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ElectronOccupancy.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Element.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ElementTable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ElementVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4EnvironmentUtils.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Exception.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ExceptionSeverity.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Exp.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4GeomSplitter.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4GlobalConfig.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4HCofThisEvent.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4HCtable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4IonisParamElm.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4IonisParamMat.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Isotope.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4IsotopeVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Log.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4LogicalVolume.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4LogicalVolume.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4LorentzVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Material.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4MaterialPropertiesIndex.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4MaterialPropertiesTable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4MaterialPropertiesTable.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4MaterialPropertyVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4MaterialTable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationHistory.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationHistory.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationHistoryPool.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationLevel.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationLevel.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationLevelRep.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4NavigationLevelRep.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4OrderedTable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PDefManager.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ParticleDefinition.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ParticleDefinition.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ParticleMomentum.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PhysicsModelCatalog.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PhysicsOrderedFreeVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PhysicsVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PhysicsVector.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4PhysicsVectorType.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Profiler.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Profiler.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ReferenceCountedHandle.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Region.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Region.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4RotationMatrix.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4SDManager.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4SDStructure.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4SandiaTable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4SensitiveVolumeList.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Step.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Step.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4StepPoint.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4StepPoint.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4StepStatus.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4SteppingControl.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4String.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4String.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Threading.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ThreeVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4TouchableHandle.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4TouchableHistory.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4TouchableHistory.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Track.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Track.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4TrackStatus.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4TrackVector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Transform3D.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4Types.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VExceptionHandler.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VHit.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VHitsCollection.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VPhysicalVolume.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VPhysicalVolume.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VReadOutGeometry.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VSDFilter.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VSensitiveDetector.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VTouchable.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VTouchable.icc
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4VUserTrackInformation.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/G4ios.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/geomdefs.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/geomwdefs.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/globals.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/pwdefs.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/templates.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/tls.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/trkdefs.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
+ /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/SensitiveDetector.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/SensitiveDetector.cc
+CMakeFiles/exampleB1.dir/src/SteppingAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/BasicVector3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Normal3D.h
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/Geant4/CLHEP/Geometry/Point3D.h
@@ -1771,7 +1903,7 @@ CMakeFiles/exampleB1.dir/src/B1SteppingAction.cc.o
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Globals.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Types.hh
  /home/nrubini/Applications/Geant4_10.07/geant4.10.07-install/include/PTL/Utility.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1DetectorConstruction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1EventAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/B1SteppingAction.hh
- /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/B1SteppingAction.cc
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/DetectorConstruction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/EventAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/include/SteppingAction.hh
+ /home/nrubini/alidock/GEANT4_BeamTest_SiPm/B1/src/SteppingAction.cc

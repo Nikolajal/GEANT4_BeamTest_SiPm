@@ -1,12 +1,13 @@
 /// \file   SiPMSD.cc
 /// \brief  Implementation of the SiPMSD class
-
-#include "SiPMSD.hh"
+/*
+#include "SensitiveDetector.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
+
 
 SiPMSD::SiPMSD              (const G4String& fDetectorName, const G4String& hitsCollectionName, G4int nofCells)
  : G4VSensitiveDetector(fDetectorName),
@@ -21,19 +22,18 @@ SiPMSD::~SiPMSD()   {
 }
 
 void SiPMSD::Initialize( G4HCofThisEvent* hce )   {
-    /*
+    
     fHitsCollection =   new SiPMHitsCollection ( SensitiveDetectorName, collectionName[0] );
     auto hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     hce->AddHitsCollection( hcID, fHitsCollection );
     for (G4int i=0; i<fNofCells+1; i++ )
     {
         fHitsCollection->insert(new SiPMHit());
-    }*/
+    }
 }
 
 G4bool SiPMSD::ProcessHits ( G4Step* step, G4TouchableHistory* )   {
 
-    /*
     auto edep = step->GetTotalEnergyDeposit();
     
     G4double stepLength = 0.;
@@ -61,10 +61,11 @@ G4bool SiPMSD::ProcessHits ( G4Step* step, G4TouchableHistory* )   {
     hit->Add(edep, stepLength,pos);
     hitTotal->Add(edep, stepLength,pos);
     return true;
-     */
+    
     return false;
 }
 
 void SiPMSD::EndOfEvent ( G4HCofThisEvent* )    {
     
 }
+*/
