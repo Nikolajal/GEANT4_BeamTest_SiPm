@@ -4,7 +4,7 @@
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
-class SiPMDetectorConstruction;
+class DetectorConstruction;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithAnInteger;
@@ -15,6 +15,7 @@ class G4UIcmdWithoutParameter;
 
 class DetectorMessenger: public G4UImessenger
 {
+  /*
   public:
     DetectorMessenger(SiPMDetectorConstruction* );
    ~DetectorMessenger();
@@ -31,6 +32,7 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveXDir;
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveYDir;
     G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveZDir;
+    */
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

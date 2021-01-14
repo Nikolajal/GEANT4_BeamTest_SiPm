@@ -19,18 +19,16 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction();
-    virtual ~RunAction();
+                    RunAction();
+    virtual        ~RunAction();
 
     // virtual G4Run* GenerateRun();
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void   EndOfRunAction(const G4Run*);
+    virtual void    BeginOfRunAction  ( const G4Run*  );
+    virtual void    EndOfRunAction    ( const G4Run*  );
 
-    void AddEdep (G4double edep); 
+    void            AddEdep           ( G4double edep ); 
 
   private:
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "DetectorMessenger.hh"
 
-#include "SiPMDetectorConstruction.hh"
+#include "DetectorConstruction.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
 #include "G4UIcmdWithAnInteger.hh"
@@ -8,7 +8,7 @@
 #include "G4UIcmdWithoutParameter.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-    
+    /*
 DetectorMessenger::DetectorMessenger    ( SiPMDetectorConstruction* Det )
     :Detector(Det)
 {
@@ -93,5 +93,5 @@ void DetectorMessenger::SetNewValue(    G4UIcommand* command,   G4String fInputV
     }
     
 }
-
+*/
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

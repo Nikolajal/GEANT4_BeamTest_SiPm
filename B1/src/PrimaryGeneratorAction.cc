@@ -11,6 +11,7 @@
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4Proton.hh"
 #include "Randomize.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -56,8 +57,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   if (!fEnvelopeBox)
   {
-    G4LogicalVolume* envLV
-      = G4LogicalVolumeStore::GetInstance()->GetVolume("Envelope");
+    G4LogicalVolume*  envLV = G4LogicalVolumeStore::GetInstance()->GetVolume("WorldLogical");
     if ( envLV ) fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
   }
 
@@ -74,12 +74,14 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      "MyCode0002",JustWarning,msg);
   }
 
-  G4double size = 0.8; 
-  G4double x0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double y0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double z0 = -0.5 * envSizeZ;
+  G4double x0 = 1.6 * cm * (G4UniformRand()-0.5)/.5;
+  G4double y0 = 0.9 * cm * (G4UniformRand()-0.5)/.5;
+  G4double z0 = 0.9 * envSizeZ;
   
+  fParticleGun->SetParticleDefinition( G4Proton::Definition() );
+  fParticleGun->SetParticleEnergy(10.*GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }

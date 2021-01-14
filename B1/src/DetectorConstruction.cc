@@ -2,17 +2,308 @@
 /// \brief Implementation of the DetectorConstruction class
 
 #include "DetectorConstruction.hh"
-
-#include "G4RunManager.hh"
+#include "SensitiveDetector.hh"
+#include "G4Material.hh"
 #include "G4NistManager.hh"
 #include "G4Box.hh"
+#include "G4LogicalVolume.hh"
+#include "G4PVPlacement.hh"
+#include "G4PVReplica.hh"
+#include "G4AutoDelete.hh"
+#include "G4SDManager.hh"
+#include "G4AssemblyVolume.hh"
+#include "G4VisAttributes.hh"
+#include "G4Colour.hh"
+#include "G4PhysicalConstants.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4RunManager.hh"
 #include "G4Cons.hh"
 #include "G4Orb.hh"
 #include "G4Sphere.hh"
 #include "G4Trd.hh"
-#include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "G4SystemOfUnits.hh"
+
+
+G4ThreadLocal 
+G4GlobalMagFieldMessenger* DetectorConstruction::fMagFieldMessenger = 0;
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+DetectorConstruction::DetectorConstruction()
+ : G4VUserDetectorConstruction(),
+   fCheckOverlaps(true) {
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+DetectorConstruction::~DetectorConstruction() {
+}  
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4VPhysicalVolume* DetectorConstruction::Construct() {
+    
+    // Define Materials & Specifics
+    DefineMaterials();
+    DefineSiPM();
+    DefineSubstrate();
+    DefineAbsorber();
+    DefineWorld();
+
+    // Define volumes
+    return BuildWorld();
+}
+
+void DetectorConstruction::ConstructSDandField()
+{
+  SensitiveDetector ***fSensitive_SiPM = new SensitiveDetector **[fSiPMCellGridNumberX];
+    
+  char* fName = new char[256];
+  char* fNam2 = new char[256];
+    
+  for ( int iClm = 0; iClm < fSiPMCellGridNumberX; ++iClm )   {
+    
+    fSensitive_SiPM[iClm]  = new SensitiveDetector  *[fSiPMCellGridNumberY];
+
+    for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+          
+    std::sprintf(fName,"Sensitive_SiPM_%i_%i",iClm,iRow);
+    std::sprintf(fNam2,"SiPMHitsCollection_%i_%i",iClm,iRow);
+    fSensitive_SiPM[iClm][iRow]   =   new SensitiveDetector ( fName, fNam2, 1);
+    G4SDManager::GetSDMpointer()->AddNewDetector(fSensitive_SiPM[iClm][iRow]);
+    
+    std::sprintf(fName,"SiPMCellLogical_%i_%i",iClm,iRow);
+    SetSensitiveDetector( fName, fSensitive_SiPM[iClm][iRow]);
+    }
+  }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::DefineMaterials()
+{ 
+    G4NistManager* nistManager = G4NistManager::Instance();
+    nistManager->FindOrBuildMaterial("G4_Galactic");
+    nistManager->FindOrBuildMaterial("G4_Fe");
+    nistManager->FindOrBuildMaterial("G4_Si");
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::DefineSiPM() {
+    
+    // SiPM Cell
+    fSiPMCellMaterial           =   G4Material::GetMaterial("G4_Si");
+    fSiPMCellWidth              =   3.*mm;
+    fSiPMCellHeight             =   3.*mm;
+    fSiPMCellDepth              =   2.*mm;
+    fSiPMCellGridSpacingX       =   0.3*mm;
+    fSiPMCellGridSpacingY       =   0.3*mm;
+    fSiPMCellGridNumberX        =   8;
+    fSiPMCellGridNumberY        =   4;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::DefineAbsorber() {
+    
+    // Substrate Definition
+    fAbsorberMaterial           =   G4Material::GetMaterial("G4_Si");
+    fAbsorberWidth              =   20*cm;
+    fAbsorberHeight             =   20*cm;
+    fAbsorberDepth              =   50.*cm;
+    auto fXDisplace             =   -10.3*cm;
+    auto fYDisplace             =   -10.*cm;
+    auto fZDisplace             =   - fWorldDepth/2. + fSubstrateDepth + fSiPMCellDepth/2. + 1.*cm + 0.5*fAbsorberDepth;
+    fAbsorberPosition           =   G4ThreeVector (fXDisplace,fYDisplace,fZDisplace);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::DefineSubstrate() {
+    
+    // Substrate Definition
+    fSubstrateMaterial          =   G4Material::GetMaterial("G4_Si");
+    fSubstrateWidth             =   4.5*cm;
+    fSubstrateHeight            =   3.5*cm;
+    fSubstrateDepth             =   fSiPMCellDepth;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::DefineWorld() {
+    
+    // SiPM Cell
+    fWorldMaterial           =   G4Material::GetMaterial("G4_Galactic");
+    fWorldWidth              =   1.*m; //X
+    fWorldHeight             =   1.*m;  //Y
+    fWorldDepth              =   4.*m;  //Z
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::BuildSiPM( G4LogicalVolume *fWorldLogical ) {
+    
+  G4Box            ***fSiPMCellSolid      =   new G4Box           **[fSiPMCellGridNumberX];
+    
+  fSiPMCellLogical    =   new G4LogicalVolume **[fSiPMCellGridNumberX];
+    
+  auto fSiPMCellAssembly  =   new G4AssemblyVolume();
+  G4RotationMatrix    fRotationNull   (0,0,0);
+    
+  char* fName = new char[256];
+    
+  for ( int iClm = 0; iClm < fSiPMCellGridNumberX; ++iClm )   {
+
+    fSiPMCellSolid[iClm]    = new G4Box            *[fSiPMCellGridNumberY];
+    fSiPMCellLogical[iClm]  = new G4LogicalVolume  *[fSiPMCellGridNumberY];
+
+    for ( int iRow = 0; iRow < fSiPMCellGridNumberY; ++iRow )   {
+
+    std::sprintf(fName,"SiPMCellSolid_%i_%i",iClm,iRow);
+    fSiPMCellSolid[iClm][iRow]      =   new G4Box(fName,
+                                                  fSiPMCellWidth/2,
+                                                  fSiPMCellHeight/2,
+                                                  fSiPMCellDepth/2);
+    
+    std::sprintf(fName,"SiPMCellLogical_%i_%i",iClm,iRow);
+    fSiPMCellLogical[iClm][iRow]    =   new G4LogicalVolume(fSiPMCellSolid[iClm][iRow],
+                                                            fSiPMCellMaterial,
+                                                            fName);
+
+    auto fXDisplace = -0.5*(fSiPMCellGridNumberX-2*iClm)*(fSiPMCellGridSpacingX+fSiPMCellWidth);
+    auto fYDisplace = -0.5*(fSiPMCellGridNumberY-2*iRow)*(fSiPMCellGridSpacingY+fSiPMCellHeight);
+    auto fZDisplace = -fWorldDepth/2.+fSubstrateDepth+fSiPMCellDepth/2.;
+    fSiPMPosition = G4ThreeVector(fXDisplace,fYDisplace,fZDisplace);
+
+    std::sprintf(fName,"SiPMCellPlacement_%i_%i",iClm,iRow);
+    auto fSiPMPlacement =   new G4PVPlacement(0,                // no rotation
+                                                  fSiPMPosition,  // at (0,0,0)
+                                                  fSiPMCellLogical[iClm][iRow], // its logical volume
+                                                  fName, // its name
+                                                  fWorldLogical,    // its mother  volume
+                                                  false,            // no boolean operation
+                                                  0,                // copy number
+                                                  fCheckOverlaps);  // checking overlaps
+    }
+  }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::BuildAbsorber( G4LogicalVolume *fWorldLogical ) {
+    
+    auto fAbsorberSolid     =   new G4Box("AbsorberSolid",
+                                          fAbsorberWidth/2,
+                                          fAbsorberHeight/2,
+                                          fAbsorberDepth/2);
+    
+    auto fAbsorberLogical   =   new G4LogicalVolume(fAbsorberSolid,
+                                                    fAbsorberMaterial,
+                                                    "AbsorberLogical");
+
+    auto fAbsorberPlacement =   new G4PVPlacement(0,                // no rotation
+                                                  fAbsorberPosition,  // at (0,0,0)
+                                                  fAbsorberLogical, // its logical volume
+                                                  "fAbsorberPlacement", // its name
+                                                  fWorldLogical,    // its mother  volume
+                                                  false,            // no boolean operation
+                                                  0,                // copy number
+                                                  fCheckOverlaps);  // checking overlaps
+    
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::BuildSubstrate( G4LogicalVolume *fWorldLogical ) {
+    
+    auto fSubstrateSolid    =   new G4Box("SubstrateSolid",
+                                          fSubstrateWidth/2,
+                                          fSubstrateHeight/2,
+                                          fSubstrateDepth/2);
+    
+    auto fSubstrateLogical  =   new G4LogicalVolume(fSubstrateSolid,
+                                                    fSubstrateMaterial,
+                                                    "SubstrateLogical");
+    
+    auto fWorldPlacement    =   new G4PVPlacement(0,                    // no rotation
+                                                  G4ThreeVector(0,0,-fWorldDepth/2+fSubstrateDepth/2),      // at (0,0,0)
+                                                  fSubstrateLogical,    // its logical volume
+                                                  "SubstratePlacement", // its name
+                                                  fWorldLogical,        // its mother  volume
+                                                  false,                // no boolean operation
+                                                  0,                    // copy number
+                                                  fCheckOverlaps);      // checking overlaps
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4VPhysicalVolume* DetectorConstruction::BuildWorld()
+{
+    if ( !(fWorldMaterial&&fSiPMCellMaterial&&fSubstrateMaterial) ) {
+        G4ExceptionDescription msg;
+        msg << "Have you fetched all Materials in DefineMaterial()?";
+        G4Exception("B4DetectorConstruction::DefineMaterials()","MyCode0001", FatalException, msg);
+    }
+   
+    auto fWorldSolid    =   new G4Box("WorldSolid",
+                                      fWorldWidth/2,    //X
+                                      fWorldHeight/2,   //Y
+                                      fWorldDepth/2);   //Z
+    
+    auto fWorldLogical  =   new G4LogicalVolume(fWorldSolid,
+                                                fWorldMaterial,
+                                                "WorldLogical");
+                                   
+    auto fWorldPlacement=   new G4PVPlacement(0,                // no rotation
+                                              G4ThreeVector(0.,0.,0.),  // at (0,0,0)
+                                              fWorldLogical,    // its logical volume
+                                              "WorldPlacement", // its name
+                                              0,                // its mother  volume
+                                              false,            // no boolean operation
+                                              0,                // copy number
+                                              fCheckOverlaps);  // checking overlaps
+    
+    BuildSiPM       ( fWorldLogical );
+    BuildSubstrate  ( fWorldLogical );
+    BuildAbsorber   ( fWorldLogical );
+    
+    return fWorldPlacement;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void    DetectorConstruction::fMoveAbsorber     ( G4ThreeVector fTranslation )  {
+    
+    fAbsorberPosition  +=   fTranslation;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void    DetectorConstruction::fSetAbsorberMat   ( G4String fMaterialChoice )    {
+    
+    G4Material* fNewMaterial = G4Material::GetMaterial ( fMaterialChoice );
+    if ( fNewMaterial ) {
+        
+        fAbsorberMaterial = fNewMaterial;
+    }   else    {
+        
+        G4ExceptionDescription msg;
+        msg << "The material passed is not available, the default will be used" << G4endl;
+        G4Exception("DetectorConstruction::fSetAbsorberMat(G4String fMaterialChoice)","W_absorber_material", JustWarning, msg);
+    }
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4LogicalVolume*    DetectorConstruction::GetSiPMLogicalVolume   ( G4int iClm, G4int iRow )  const  {
+    
+    return fSiPMCellLogical[iClm][iRow];
+    
+}
+
+
+
+/*
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -58,7 +349,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                         world_mat,           //its material
                         "World");            //its name
                                    
-  G4VPhysicalVolume* physWorld = 
+  G4VPhysicalVolume* PhysicalWorld = 
     new G4PVPlacement(0,                     //no rotation
                       G4ThreeVector(),       //at (0,0,0)
                       logicWorld,            //its logical volume
@@ -155,7 +446,41 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //
   //always return the physical World
   //
-  return physWorld;
+  return PhysicalWorld;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void DetectorConstruction::ConstructSDandField()
+ {
+   // G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+  
+   // 
+   // Sensitive detectors
+   //
+   auto absoSD 
+     = new B4cCalorimeterSD("AbsorberSD", "AbsorberHitsCollection", fNofLayers);
+   G4SDManager::GetSDMpointer()->AddNewDetector(absoSD);
+   SetSensitiveDetector("AbsoLV",absoSD);
+  
+   auto gapSD 
+     = new B4cCalorimeterSD("GapSD", "GapHitsCollection", fNofLayers);
+   G4SDManager::GetSDMpointer()->AddNewDetector(gapSD);
+   SetSensitiveDetector("GapLV",gapSD);
+  
+   // 
+   // Magnetic field
+   //
+   // Create global magnetic field messenger.
+   // Uniform magnetic field is then created automatically if
+   // the field value is not zero.
+   G4ThreeVector fieldValue;
+   fMagFieldMessenger = new G4GlobalMagFieldMessenger(fieldValue);
+   fMagFieldMessenger->SetVerboseLevel(1);
+   
+   // Register the field messenger for deleting
+   G4AutoDelete::Register(fMagFieldMessenger);
+ }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+*/
