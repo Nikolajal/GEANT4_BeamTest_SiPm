@@ -5,7 +5,9 @@
 #define RunAction_h 1
 
 #include "G4UserRunAction.hh"
+#include "RunMessenger.hh"
 #include "G4Accumulable.hh"
+#include "RunMessenger.hh"
 #include "globals.hh"
 
 class G4Run;
@@ -26,9 +28,12 @@ class RunAction : public G4UserRunAction
     virtual void    BeginOfRunAction  ( const G4Run*  );
     virtual void    EndOfRunAction    ( const G4Run*  );
 
-    void            AddEdep           ( G4double edep ); 
+    void            AddEdep           ( G4double edep );
+    void            fSetFileName      ( G4String fNewFileName ) { fFileName = fNewFileName; };
 
   private:
+    G4String        fFileName;
+    RunMessenger   *fRunMessenger;
 };
 
 #endif

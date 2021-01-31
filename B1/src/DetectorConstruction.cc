@@ -2,6 +2,7 @@
 /// \brief Implementation of the DetectorConstruction class
 
 #include "DetectorConstruction.hh"
+#include "DetectorMessenger.hh"
 #include "SensitiveDetector.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
@@ -31,6 +32,7 @@ G4GlobalMagFieldMessenger* DetectorConstruction::fMagFieldMessenger = 0;
 DetectorConstruction::DetectorConstruction()
  : G4VUserDetectorConstruction(),
    fCheckOverlaps(true) {
+  fDetMessenger = new DetectorMessenger(this);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -110,7 +112,7 @@ void DetectorConstruction::DefineAbsorber() {
     fAbsorberMaterial           =   G4Material::GetMaterial("G4_Si");
     fAbsorberWidth              =   20*cm;
     fAbsorberHeight             =   20*cm;
-    fAbsorberDepth              =   50.*cm;
+    fAbsorberDepth              =   10*cm;
     auto fXDisplace             =   -10.3*cm;
     auto fYDisplace             =   -10.*cm;
     auto fZDisplace             =   - fWorldDepth/2. + fSubstrateDepth + fSiPMCellDepth/2. + 1.*cm + 0.5*fAbsorberDepth;
@@ -192,16 +194,16 @@ void DetectorConstruction::BuildSiPM( G4LogicalVolume *fWorldLogical ) {
 
 void DetectorConstruction::BuildAbsorber( G4LogicalVolume *fWorldLogical ) {
     
-    auto fAbsorberSolid     =   new G4Box("AbsorberSolid",
+    fAbsorberSolid     =   new G4Box("AbsorberSolid",
                                           fAbsorberWidth/2,
                                           fAbsorberHeight/2,
                                           fAbsorberDepth/2);
     
-    auto fAbsorberLogical   =   new G4LogicalVolume(fAbsorberSolid,
+    fAbsorberLogical   =   new G4LogicalVolume(fAbsorberSolid,
                                                     fAbsorberMaterial,
                                                     "AbsorberLogical");
 
-    auto fAbsorberPlacement =   new G4PVPlacement(0,                // no rotation
+    fAbsorberPlacement =   new G4PVPlacement(0,                // no rotation
                                                   fAbsorberPosition,  // at (0,0,0)
                                                   fAbsorberLogical, // its logical volume
                                                   "fAbsorberPlacement", // its name
@@ -250,7 +252,7 @@ G4VPhysicalVolume* DetectorConstruction::BuildWorld()
                                       fWorldHeight/2,   //Y
                                       fWorldDepth/2);   //Z
     
-    auto fWorldLogical  =   new G4LogicalVolume(fWorldSolid,
+    fWorldLogical  =   new G4LogicalVolume(fWorldSolid,
                                                 fWorldMaterial,
                                                 "WorldLogical");
                                    
@@ -273,8 +275,9 @@ G4VPhysicalVolume* DetectorConstruction::BuildWorld()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void    DetectorConstruction::fMoveAbsorber     ( G4ThreeVector fTranslation )  {
-    
+    if ( fTranslation == G4ThreeVector(0,0,0) ) return;
     fAbsorberPosition  +=   fTranslation;
+    fAbsorberPlacement  ->  SetTranslation( fAbsorberPosition );
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -286,7 +289,6 @@ void    DetectorConstruction::fSetAbsorberMat   ( G4String fMaterialChoice )    
         
         fAbsorberMaterial = fNewMaterial;
     }   else    {
-        
         G4ExceptionDescription msg;
         msg << "The material passed is not available, the default will be used" << G4endl;
         G4Exception("DetectorConstruction::fSetAbsorberMat(G4String fMaterialChoice)","W_absorber_material", JustWarning, msg);

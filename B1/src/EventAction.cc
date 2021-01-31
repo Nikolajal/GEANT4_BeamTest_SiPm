@@ -7,7 +7,7 @@
 
 EventAction::EventAction()
 : G4UserEventAction(),
-  fRunAction(0)   {
+  fRunAction(0)  {
 
   } 
 
@@ -51,14 +51,16 @@ void EventAction::EndOfEventAction( const G4Event* fCurrent_Event )  {
             if ( fTotalEntries_ == 0 ) continue;
             auto    fEnergyDeposit  =   ((*fCurrent_SD_HC)[0])->GetEdep();
             auto    fEnergyPositon  =   ((*fCurrent_SD_HC)[0])->GetEPos();
+            analysisManager->FillH2(0,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY(),fEnergyDeposit/fDetectorMass);
+            /*
             analysisManager->FillNtupleDColumn(0,   fEnergyDeposit/fDetectorMass);
             analysisManager->FillNtupleDColumn(1,   (1./fDetectorMass)*fEnergyPositon.getX() ); 
             analysisManager->FillNtupleDColumn(2,   (1./fDetectorMass)*fEnergyPositon.getY() );
             analysisManager->FillNtupleDColumn(3,   (1./fDetectorMass)*fEnergyPositon.getZ() );
             analysisManager->FillNtupleIColumn(4,   iRow );
             analysisManager->FillNtupleIColumn(5,   iClm );
-            analysisManager->FillH2(0,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY(),fEnergyDeposit/fDetectorMass);
             analysisManager->AddNtupleRow();
+            */
         }
     }
 }

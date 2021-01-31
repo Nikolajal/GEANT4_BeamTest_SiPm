@@ -8,10 +8,13 @@
 #include "G4Material.hh"
 #include "G4ThreeVector.hh"
 #include "globals.hh"
+#include "G4Box.hh"
+#include "G4PVPlacement.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4GlobalMagFieldMessenger;
+class DetectorMessenger;
 
 /// Detector construction class to define materials and geometry.
 
@@ -60,11 +63,15 @@ private:
     G4Material                     *fAbsorberMaterial;
     G4double                        fAbsorberHeight,   fAbsorberDepth,    fAbsorberWidth;
     G4ThreeVector                   fAbsorberPosition;
+    G4Box                          *fAbsorberSolid;
+    G4LogicalVolume                *fAbsorberLogical;
+    G4PVPlacement                  *fAbsorberPlacement;
     
     // World Specifics
     void                            DefineWorld();
     G4Material                     *fWorldMaterial;
     G4double                        fWorldHeight,   fWorldDepth,    fWorldWidth;
+    G4LogicalVolume                *fWorldLogical;
     
     // Volumes Building
     G4VPhysicalVolume*              BuildWorld();
@@ -74,6 +81,7 @@ private:
     
     // Utility
     G4bool                          fCheckOverlaps; // option to activate checking of volumes overlaps
+    DetectorMessenger              *fDetMessenger;  // Detector messenger
     
     // !TODO: Check usefulness
     // -- // Example legacy (TBD if useful)
@@ -82,4 +90,3 @@ private:
 };
 
 #endif
-

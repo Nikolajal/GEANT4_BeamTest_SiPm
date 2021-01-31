@@ -3,6 +3,7 @@
 
 #include "globals.hh"
 #include "G4UImessenger.hh"
+#include "DetectorConstruction.hh"
 
 class DetectorConstruction;
 class G4UIdirectory;
@@ -15,24 +16,21 @@ class G4UIcmdWithoutParameter;
 
 class DetectorMessenger: public G4UImessenger
 {
-  /*
   public:
-    DetectorMessenger(SiPMDetectorConstruction* );
+    DetectorMessenger( DetectorConstruction* );
    ~DetectorMessenger();
     
     void SetNewValue(G4UIcommand*, G4String);
     
   private:
-    SiPMDetectorConstruction* Detector;
-    
-    G4UIdirectory*             fDir_SiPMProject;
-    G4UIdirectory*             fDir_SiPMProject_Detector;
-    G4UIdirectory*             fDir_SiPMProject_Absorber;
-    G4UIcmdWithAString*        fCmd_Absorber_Material;
-    G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveXDir;
-    G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveYDir;
-    G4UIcmdWithADoubleAndUnit* fCmd_Absorber_MoveZDir;
-    */
+    DetectorConstruction*       fDetector;
+    G4UIdirectory*              fDir_SiPmProject;
+    G4UIdirectory*              fDir_SiPmProject_Detector;
+    G4UIdirectory*              fDir_SiPmProject_Absorber;
+    G4UIcmdWithAString*         fCmd_Absorber_Material;
+    G4UIcmdWithADoubleAndUnit*  fCmd_Absorber_MoveXDir;
+    G4UIcmdWithADoubleAndUnit*  fCmd_Absorber_MoveYDir;
+    G4UIcmdWithADoubleAndUnit*  fCmd_Absorber_MoveZDir;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

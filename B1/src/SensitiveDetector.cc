@@ -5,14 +5,17 @@
 #include "SensitiveDetector.hh"
 #include "DetectorHit.hh"
 #include "G4HCofThisEvent.hh"
+#include "G4RunManager.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
+#include "Analysis.hh"
 
                         SensitiveDetector::SensitiveDetector    (const G4String& fDetectorName, const G4String& hitsCollectionName, G4int nofCells)
  : G4VSensitiveDetector(fDetectorName),
-   fHitsCollection(nullptr)    {
+   fHitsCollection(nullptr),
+  fCollectionIndex(1)     {
        
     collectionName.insert(hitsCollectionName);
 }
@@ -36,7 +39,7 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     //
     // >-> Track
     //
-    //G4Track            *fCurrentTrack   =   fCurrentStep->GetTrack();                       // Pointer to current Track
+    G4Track            *fCurrentTrack   =   fCurrentStep->GetTrack();                       // Pointer to current Track
     //
     // >-> Step
     //
@@ -90,6 +93,12 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     //G4VPhysicalVolume  *fPrePhysVol     =   fPrePoint->GetPhysicalVolume();
     //G4Material         *fPreMaterial    =   fPrePoint->GetMaterial();
 
+    // Recovering Step Point Information
+    //
+    // >-> Global properties
+    //
+    const G4ParticleDefinition   *fParticle   =   fCurrentTrack->GetParticleDefinition();
+
     // Implementation
     //
     // >-> Check the information needed is worth saving
@@ -108,7 +117,23 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
         G4Exception("B4cCalorimeterSD::ProcessHits()","MyCode0004", FatalException, msg);
     }
     
-    fCurrent_DetectorHit->Add(fEnergyDeposit, (fPrePosition+fPstPosition)/2. );
+    auto fEnergyPositon = (fPrePosition+fPstPosition)/2.;
+    fCurrent_DetectorHit->Add(fEnergyDeposit, fEnergyPositon );
+
+    //Starting the Analysis Manager
+    auto analysisManager = G4AnalysisManager::Instance();
+
+    // Find particle in map
+    auto    fIterator   =   fMapOfHistograms.find(fParticle->GetParticleName());
+    if  ( fIterator != fMapOfHistograms.end() )  {
+        analysisManager->FillH2(fIterator->second,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
+    }   else    {
+        analysisManager->CreateH2(fParticle->GetParticleName(),fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
+        analysisManager->FillH2(fCollectionIndex,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
+        fMapOfHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
+        fCollectionIndex++;
+    }
+
     return true;
 }
 
