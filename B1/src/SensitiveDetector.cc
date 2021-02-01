@@ -130,13 +130,16 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     auto fMapOfEDepHistograms   =   fRunAction->fGetEDepMap();
     auto fMapOfCntrHistograms   =   fRunAction->fGetCntrMap();
     auto fCollectionIndex       =   fRunAction->fGetIndex();
+    
+    char* fName = new char[256];
 
     // Find particle in map
     auto    fIteratorEDep   =   fMapOfEDepHistograms.find(fParticle->GetParticleName());
     if  ( fIteratorEDep != fMapOfEDepHistograms.end() )  {
-        analysisManager->FillH2(fIteratorEDep->second,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
+        analysisManager->FillH2(fIteratorEDep->second,fEnergyPositon.getX(),fEnergyPositon.getY());
     }   else    {
-        analysisManager->CreateH2(fParticle->GetParticleName(),fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
+        std::sprintf(fName,"EDep_%s",fParticle->GetParticleName());
+        analysisManager->CreateH2(fName,fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
         analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
         fMapOfEDepHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
         fCollectionIndex++;
@@ -146,9 +149,10 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     
     auto    fIteratorCntr   =   fMapOfCntrHistograms.find(fParticle->GetParticleName());
     if  ( fIteratorCntr != fMapOfCntrHistograms.end() )  {
-        if ( fIsFirstStep ) analysisManager->FillH2(fIteratorCntr->second,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
+        if ( fIsFirstStep ) analysisManager->FillH2(fIteratorCntr->second,fEnergyPositon.getX(),fEnergyPositon.getY());
     }   else    {
-        analysisManager->CreateH2(fParticle->GetParticleName(),fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
+        std::sprintf(fName,"Count_%s",fParticle->GetParticleName());
+        analysisManager->CreateH2(fName,fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
         if ( fIsFirstStep ) analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
         fMapOfCntrHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
         fCollectionIndex++;
