@@ -48,8 +48,8 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     //G4double            fStepLength     =   fCurrentStep->GetStepLength();                  // Step Length
     G4double            fEnergyDeposit  =   fCurrentStep->GetTotalEnergyDeposit();          // Particle Energy Deposit
     G4double            fNIEDeposit     =   fCurrentStep->GetNonIonizingEnergyDeposit();    // Particle Energy Deposit
-    //G4bool              fFirstStep      =   fCurrentStep->IsFirstStepInVolume();            // is First Step in Volume
-    //G4bool              fLastStep       =   fCurrentStep->IsLastStepInVolume();             // is Last Step in Volume
+    G4bool              fIsFirstStep    =   fCurrentStep->IsFirstStepInVolume();            // is First Step in Volume
+    //G4bool              fIsLastStep     =   fCurrentStep->IsLastStepInVolume();             // is Last Step in Volume
     //
 
     // Recovering Step Point Information
@@ -91,8 +91,10 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     // >-> Volume
     //
     //G4VPhysicalVolume  *fPrePhysVol     =   fPrePoint->GetPhysicalVolume();
+    //G4VPhysicalVolume  *fPstPhysVol     =   fPstPoint->GetPhysicalVolume();
     //G4Material         *fPreMaterial    =   fPrePoint->GetMaterial();
-
+    //G4Material         *fPstMaterial    =   fPstPoint->GetMaterial();
+    
     // Recovering Step Point Information
     //
     // >-> Global properties
@@ -124,20 +126,33 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     auto analysisManager = G4AnalysisManager::Instance();
     auto runManager = G4RunManager::GetRunManager();
 
-    auto fRunAction         =   (RunAction*)(runManager->GetUserRunAction());
-    auto fMapOfHistograms   =   fRunAction->fGetMap();
-    auto fCollectionIndex   =   fRunAction->fGetIndex();
+    auto fRunAction             =   (RunAction*)(runManager->GetUserRunAction());
+    auto fMapOfEDepHistograms   =   fRunAction->fGetEDepMap();
+    auto fMapOfCntrHistograms   =   fRunAction->fGetCntrMap();
+    auto fCollectionIndex       =   fRunAction->fGetIndex();
 
     // Find particle in map
-    auto    fIterator   =   fMapOfHistograms.find(fParticle->GetParticleName());
-    if  ( fIterator != fMapOfHistograms.end() )  {
+    auto    fIteratorEDep   =   fMapOfEDepHistograms.find(fParticle->GetParticleName());
+    if  ( fIteratorEDep != fMapOfEDepHistograms.end() )  {
         analysisManager->FillH2(fIterator->second,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
     }   else    {
         analysisManager->CreateH2(fParticle->GetParticleName(),fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
-        analysisManager->FillH2(fCollectionIndex,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
-        fMapOfHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
+        analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
+        fMapOfEDepHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
         fCollectionIndex++;
-        fRunAction->fSetMap(fMapOfHistograms);
+        fRunAction->fSetEDepMap(fMapOfEDepHistograms);
+        fRunAction->fSetIndex(fCollectionIndex);
+    }
+    
+    auto    fIteratorCntr   =   fMapOfCntrHistograms.find(fParticle->GetParticleName());
+    if  ( fIteratorCntr != fMapOfCntrHistograms.end() )  {
+        if ( fIsFirstStep ) analysisManager->FillH2(fIterator->second,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
+    }   else    {
+        analysisManager->CreateH2(fParticle->GetParticleName(),fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
+        if ( fIsFirstStep ) analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
+        fMapOfCntrHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
+        fCollectionIndex++;
+        fRunAction->fSetMap(fMapOfCntrHistograms);
         fRunAction->fSetIndex(fCollectionIndex);
     }
 
