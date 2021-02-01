@@ -4,7 +4,11 @@
 #include "DetectorConstruction.hh"
 #include "ActionInitialization.hh"
 
-#include "G4RunManagerFactory.hh"
+#ifdef G4MULTITHREADED
+#include "G4MTRunManager.hh"
+#else
+#include "G4RunManager.hh"
+#endif
 
 #include "G4UImanager.hh"
 #include "QBBC.hh"
@@ -30,8 +34,7 @@ int main(int argc,char** argv)
   
   // Construct the default run manager
   //
-  auto* runManager =
-    G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+  auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
   // Set mandatory initialization classes
   //
