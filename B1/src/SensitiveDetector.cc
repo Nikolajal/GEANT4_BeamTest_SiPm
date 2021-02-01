@@ -138,7 +138,7 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     if  ( fIteratorEDep != fMapOfEDepHistograms.end() )  {
         analysisManager->FillH2(fIteratorEDep->second,fEnergyPositon.getX(),fEnergyPositon.getY());
     }   else    {
-        std::sprintf(fName,"EDep_%s",fParticle->GetParticleName());
+        std::sprintf(fName,"EDep_%s",(fParticle->GetParticleName()).Data());
         analysisManager->CreateH2(fName,fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
         analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
         fMapOfEDepHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
@@ -151,7 +151,7 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
     if  ( fIteratorCntr != fMapOfCntrHistograms.end() )  {
         if ( fIsFirstStep ) analysisManager->FillH2(fIteratorCntr->second,fEnergyPositon.getX(),fEnergyPositon.getY());
     }   else    {
-        std::sprintf(fName,"Count_%s",fParticle->GetParticleName());
+        std::sprintf(fName,"Count_%s",(fParticle->GetParticleName()).Data());
         analysisManager->CreateH2(fName,fParticle->GetParticleName(), 28*50, -16., 12., 14*50, -9., 5.);
         if ( fIsFirstStep ) analysisManager->FillH2(fCollectionIndex,fEnergyPositon.getX(),fEnergyPositon.getY());
         fMapOfCntrHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
