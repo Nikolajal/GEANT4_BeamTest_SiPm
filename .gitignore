@@ -33,6 +33,7 @@
 
 # CMake builds
 *build/**
+*/*build/**
 
 # Unknown
 .DS_Store
