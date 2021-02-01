@@ -47,7 +47,9 @@ RunAction::RunAction()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::~RunAction() {
-  delete G4AnalysisManager::Instance();
+    delete  G4AnalysisManager::Instance();
+    delete  fMapOfEDepHistograms;
+    delete  fMapOfHistograms;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
