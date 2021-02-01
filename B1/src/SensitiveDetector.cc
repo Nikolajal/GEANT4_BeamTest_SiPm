@@ -8,14 +8,14 @@
 #include "G4RunManager.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
+#include "RunAction.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 #include "Analysis.hh"
 
                         SensitiveDetector::SensitiveDetector    (const G4String& fDetectorName, const G4String& hitsCollectionName, G4int nofCells)
  : G4VSensitiveDetector(fDetectorName),
-   fHitsCollection(nullptr),
-  fCollectionIndex(1)     {
+   fHitsCollection(nullptr)     {
        
     collectionName.insert(hitsCollectionName);
 }
@@ -122,6 +122,11 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
 
     //Starting the Analysis Manager
     auto analysisManager = G4AnalysisManager::Instance();
+    auto runManager = G4RunManager::GetRunManager();
+
+    auto fRunAction         =   (RunAction*)(runManager->GetUserRunAction());
+    auto fMapOfHistograms   =   fRunAction->fGetMap();
+    auto fCollectionIndex   =   fRunAction->fGetIndex();
 
     // Find particle in map
     auto    fIterator   =   fMapOfHistograms.find(fParticle->GetParticleName());
@@ -132,6 +137,8 @@ G4bool                  SensitiveDetector::ProcessHits          ( G4Step* fCurre
         analysisManager->FillH2(fCollectionIndex,(1./fEnergyDeposit)*fEnergyPositon.getX(),(1./fEnergyDeposit)*fEnergyPositon.getY());
         fMapOfHistograms.emplace(fParticle->GetParticleName(),fCollectionIndex);
         fCollectionIndex++;
+        fRunAction->fSetMap(fMapOfHistograms);
+        fRunAction->fSetIndex(fCollectionIndex);
     }
 
     return true;

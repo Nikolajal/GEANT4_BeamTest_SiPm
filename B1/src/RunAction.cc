@@ -16,7 +16,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction()
-: G4UserRunAction(),  fFileName("SiPMAnalysisOutput") { 
+: G4UserRunAction(),  fFileName("SiPMAnalysisOutput"), fCollectionIndex(1) { 
   // Start messenger
   fRunMessenger = new RunMessenger(this);
 

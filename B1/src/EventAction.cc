@@ -33,7 +33,6 @@ void EventAction::EndOfEventAction( const G4Event* fCurrent_Event )  {
 
     for ( int iClm = 0; iClm < 8; ++iClm )   {
         for ( int iRow = 0; iRow < 4; ++iRow )   {
-        
             std::sprintf(fName,"SiPMHitsCollection_%i_%i",iClm,iRow);
             G4int   fCurrent_SD_ID  =   G4SDManager::GetSDMpointer()->GetCollectionID(fName);
             DetectorHitsCollection *fCurrent_SD_HC =   GetHitsCollection( fCurrent_SD_ID, fCurrent_Event );

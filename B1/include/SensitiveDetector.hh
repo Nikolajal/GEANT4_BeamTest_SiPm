@@ -22,8 +22,6 @@ class SensitiveDetector : public G4VSensitiveDetector
 
   private:
     DetectorHitsCollection     *fHitsCollection;
-    G4int                       fCollectionIndex;
-    std::map<G4String,G4int>    fMapOfHistograms;
 };
 
 #endif

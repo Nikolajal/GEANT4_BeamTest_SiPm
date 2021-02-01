@@ -31,9 +31,15 @@ class RunAction : public G4UserRunAction
     void            AddEdep           ( G4double edep );
     void            fSetFileName      ( G4String fNewFileName ) { fFileName = fNewFileName; };
 
+    void            fSetIndex           ( G4int edep ) { fCollectionIndex = edep; };
+    void            fSetMap         ( std::map<G4String,G4int> edep ) { fMapOfHistograms = edep; };
+    std::map<G4String,G4int>  fGetMap (  ) { return fMapOfHistograms;};
+    G4int            fGetIndex        (  ) { return fCollectionIndex ;};
   private:
     G4String        fFileName;
     RunMessenger   *fRunMessenger;
+    G4int                       fCollectionIndex;
+    std::map<G4String,G4int>    fMapOfHistograms;
 };
 
 #endif

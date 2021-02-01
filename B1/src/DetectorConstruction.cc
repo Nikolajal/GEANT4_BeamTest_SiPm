@@ -286,8 +286,7 @@ void    DetectorConstruction::fSetAbsorberMat   ( G4String fMaterialChoice )    
     
     G4Material* fNewMaterial = G4Material::GetMaterial ( fMaterialChoice );
     if ( fNewMaterial ) {
-        
-        fAbsorberMaterial = fNewMaterial;
+        fAbsorberLogical->SetMaterial(fNewMaterial);
     }   else    {
         G4ExceptionDescription msg;
         msg << "The material passed is not available, the default will be used" << G4endl;
