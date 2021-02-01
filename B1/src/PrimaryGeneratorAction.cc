@@ -29,7 +29,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   G4String particleName;
   G4ParticleDefinition* particle  = particleTable->FindParticle(particleName="proton");
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
   fParticleGun->SetParticleEnergy(100.*MeV);
 }
 
@@ -44,9 +44,8 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
+  //this function is called at the begining of each event
   //
-
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
@@ -77,11 +76,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double y0 = 0.9 * cm * (G4UniformRand()-0.5)/.5;
   G4double z0 = 0.9 * envSizeZ;
   
-  fParticleGun->SetParticleDefinition( G4Proton::Definition() );
-  fParticleGun->SetParticleEnergy(10.*GeV);
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
-
+  
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
