@@ -34,7 +34,11 @@ int main(int argc,char** argv)
   
   // Construct the default run manager
   //
-  auto* runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
+#ifdef G4MULTITHREADED
+  G4MTRunManager* runManager = new G4MTRunManager;
+#else
+  G4RunManager* runManager = new G4RunManager;
+#endif
 
   // Set mandatory initialization classes
   //
