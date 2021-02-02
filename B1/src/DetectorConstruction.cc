@@ -114,7 +114,7 @@ void DetectorConstruction::DefineAbsorber() {
     fAbsorberHeight             =   20*cm;
     fAbsorberDepth              =   4*cm;
     auto fXDisplace             =   -10*cm;
-    auto fYDisplace             =   0..*cm;
+    auto fYDisplace             =   0.*cm;
     auto fZDisplace             =   - fWorldDepth/2. + fSubstrateDepth + fSiPMCellDepth/2. + 1.*cm + 0.5*fAbsorberDepth;
     fAbsorberPosition           =   G4ThreeVector (fXDisplace,fYDisplace,fZDisplace);
 }
