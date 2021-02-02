@@ -12,6 +12,8 @@
 
 #include "G4UImanager.hh"
 #include "QBBC.hh"
+#include "FTFP_BERT.hh"
+#include "QBBC.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
