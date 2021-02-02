@@ -3,7 +3,7 @@
 /gps/energy 100 MeV
 /gps/direction 0. 0. -1.
 /gps/pos/centre -5. 0. 0. cm
-/gps/pos/shape/ Square
+/gps/pos/shape Square
 /gps/pos/halfx 10 cm
 /gps/pos/halfy 10 cm
 /SiPmRun/Run/filename out0
