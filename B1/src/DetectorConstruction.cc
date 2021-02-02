@@ -112,7 +112,7 @@ void DetectorConstruction::DefineAbsorber() {
     fAbsorberMaterial           =   G4Material::GetMaterial("G4_Si");
     fAbsorberWidth              =   20*cm;
     fAbsorberHeight             =   20*cm;
-    fAbsorberDepth              =   10*cm;
+    fAbsorberDepth              =   0.25*cm;
     auto fXDisplace             =   -10.3*cm;
     auto fYDisplace             =   -10.*cm;
     auto fZDisplace             =   - fWorldDepth/2. + fSubstrateDepth + fSiPMCellDepth/2. + 1.*cm + 0.5*fAbsorberDepth;
