@@ -1,11 +1,15 @@
+
+
 /gps/particle proton
-/gps/energy 100 MeV
+/gps/pos/type Plane
+/gps/pos/shape Square
 /gps/direction 0. 0. -1.
 /gps/pos/centre -5. 0. 0. cm
-/gps/pos/shape Square
 /gps/pos/halfx 10 cm
 /gps/pos/halfy 10 cm
+/gps/energy 100 MeV
+
+
 /SiPmRun/Run/filename out0
-/run/initialize
 /run/printProgress 1000
 /run/beamOn 100000
