@@ -72,7 +72,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      "MyCode0002",JustWarning,msg);
   }
 
-  G4double x0 = (1.6 * cm * (G4UniformRand()-0.5)/.5)-1.6;
+  G4double x0 = 0.3 * cm * (G4UniformRand()-0.5)/.5 - 0.6 * cm;
   G4double y0 = 0.9 * cm * (G4UniformRand()-0.5)/.5;
   G4double z0 = 0.9 * envSizeZ;
   
