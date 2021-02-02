@@ -109,10 +109,10 @@ void DetectorConstruction::DefineSiPM() {
 void DetectorConstruction::DefineAbsorber() {
     
     // Substrate Definition
-    fAbsorberMaterial           =   G4Material::GetMaterial("G4_Si");
+    fAbsorberMaterial           =   G4Material::GetMaterial("G4_Al");
     fAbsorberWidth              =   20*cm;
     fAbsorberHeight             =   20*cm;
-    fAbsorberDepth              =   0.25*cm;
+    fAbsorberDepth              =   4*cm;
     auto fXDisplace             =   -10.3*cm;
     auto fYDisplace             =   -10.*cm;
     auto fZDisplace             =   - fWorldDepth/2. + fSubstrateDepth + fSiPMCellDepth/2. + 1.*cm + 0.5*fAbsorberDepth;
