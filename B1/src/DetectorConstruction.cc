@@ -86,6 +86,7 @@ void DetectorConstruction::DefineMaterials()
     G4NistManager* nistManager = G4NistManager::Instance();
     nistManager->FindOrBuildMaterial("G4_Galactic");
     nistManager->FindOrBuildMaterial("G4_Fe");
+    nistManager->FindOrBuildMaterial("G4_Al");
     nistManager->FindOrBuildMaterial("G4_Si");
 }
 
