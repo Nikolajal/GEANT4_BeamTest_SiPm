@@ -7,7 +7,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
 #include "G4RunManager.hh"
-#include "G4GeneralParticleSource.hh"
+#include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
@@ -22,15 +22,15 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fEnvelopeBox(0)
 {
   G4int n_particle = 1;
-  fParticleGun  = new G4GeneralParticleSource();
+  fParticleGun  = new G4ParticleGun(n_particle);
 
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
   G4ParticleDefinition* particle  = particleTable->FindParticle(particleName="proton");
   fParticleGun->SetParticleDefinition(particle);
-  //fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
-  //fParticleGun->SetParticleEnergy(100.*MeV);
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,-1.));
+  fParticleGun->SetParticleEnergy(100.*MeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -49,7 +49,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
-  /*
+  
   G4double envSizeXY = 0;
   G4double envSizeZ = 0;
 
@@ -72,12 +72,12 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
      "MyCode0002",JustWarning,msg);
   }
 
-  G4double x0 = 1.6 * cm * (G4UniformRand()-0.5)/.5;
+  G4double x0 = (1.6 * cm * (G4UniformRand()-0.5)/.5)-1.6;
   G4double y0 = 0.9 * cm * (G4UniformRand()-0.5)/.5;
   G4double z0 = 0.9 * envSizeZ;
   
   fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-  */
+  
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 
