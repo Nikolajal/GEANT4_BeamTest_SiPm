@@ -22,7 +22,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
   fEnvelopeBox(0)
 {
   G4int n_particle = 1;
-  fParticleGun  = new G4GeneralParticleSource(n_particle);
+  fParticleGun  = new G4GeneralParticleSource();
 
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
