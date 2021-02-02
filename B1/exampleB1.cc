@@ -46,7 +46,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list
-  G4VModularPhysicsList* physicsList = new QGSP_BERT_HP;
+  G4VModularPhysicsList* physicsList = new FTFP_BERT;
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
     
